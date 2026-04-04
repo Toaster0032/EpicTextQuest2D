@@ -1,0 +1,14 @@
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\bin\Debug\net10.0\EpicTextQuest2D.exe
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\bin\Debug\net10.0\EpicTextQuest2D.deps.json
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\bin\Debug\net10.0\EpicTextQuest2D.runtimeconfig.json
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\bin\Debug\net10.0\EpicTextQuest2D.dll
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\bin\Debug\net10.0\EpicTextQuest2D.pdb
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\EpicTextQuest2D.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\EpicTextQuest2D.AssemblyInfoInputs.cache
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\EpicTextQuest2D.AssemblyInfo.cs
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\EpicTextQuest2D.csproj.CoreCompileInputs.cache
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\EpicTextQuest2D.dll
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\refint\EpicTextQuest2D.dll
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\EpicTextQuest2D.pdb
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\EpicTextQuest2D.genruntimeconfig.cache
+C:\Users\dench\source\repos\EpicTextQuest2D\EpicTextQuest2D\obj\Debug\net10.0\ref\EpicTextQuest2D.dll
