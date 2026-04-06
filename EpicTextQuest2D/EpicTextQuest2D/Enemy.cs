@@ -4,14 +4,13 @@ using System.Text;
 
 namespace EpicTextQuest2D
 {
-    public class Felix
+    public class Enemy
     {
-        public int Health {  get; set; }
+        public double Health {  get; set; }
         public int MaxHealth { get; set; }
         private int stamina { get; set; }
-        public int Stamina
-        {
-            get 
+        public int Stamina 
+        {   get
             {
                 return stamina;
             }
@@ -30,17 +29,13 @@ namespace EpicTextQuest2D
                     stamina = value;
                 }
             }
-
         }
-
-        public int Advantage { get; set; }
         public int AtkAmmount { get; set; }
-        public Felix(int health, int maxh, int stam, int adv, int atkammount)
+        public Enemy (double health, int maxh, int stame, int atkammount) 
         {
             Health = health;
             MaxHealth = maxh;
-            stamina = stam;
-            Advantage = adv;
+            Stamina = stame;
             AtkAmmount = atkammount;
         }
     }

@@ -21,7 +21,188 @@ Console.WriteLine(
     "=====================================================================================\n" +
     "=====================================================================================\n"
     );
-Console.WriteLine(""
-    );
-int health = 100;
-Felix felix = new Felix(health, 100, 20, 1);
+Felix felix = new Felix(100, 100, 20, 0, 1);
+Enemy enemy = new Enemy(100, 100, 10, 1);
+List <Skills> skills = new List<Skills>();
+Skills burning_servants = new Skills("Огненные слуги", "«Используя магию огня, я могу создать огненных существ, которые атакуют всех вокруг меня.»", 15 + felix.Advantage,5,0);
+Skills thunder_kick = new Skills("Молниеносный пинок", "«Магия молнии способна помочь мне нанести сокрушающий и молниеносный удар противнику.»", 25 + (felix.Advantage * 1.5),10,0);
+Skills grand_javelin = new Skills("Великолепное копье", "«Воспользовавшись магией молнии, я знаю как материализовать что-то наподобие копья, которое всегда найдет свой путь к противнику и поразит его с невероятной скоростью.»", 30 + (felix.Advantage * 2),15,0);
+Skills shadow_intervention = new Skills("Теневое вмешательство", "«Тени могут изменить темп битвы, вцепившись в противника, обездвижив его, после чего они резко вырвут свои когти, оставляя глубокие раны, напитывая меня вражеской кровью.»", 40 + felix.Advantage, 17,20);
+Skills rejected_by_flame = new Skills("Отвергнутый огнем", "«Сконцентрировав всю магию огня в себе, начнется резкое её отторжение, нанося урон всему и даже мне.»", 30 * (felix.Advantage / 2), 20, -10);
+skills.Add(burning_servants);
+skills.Add(thunder_kick);
+skills.Add(grand_javelin);
+skills.Add(shadow_intervention);
+skills.Add(rejected_by_flame);
+void Attack ()
+{
+    int dmgfelix = Random.Shared.Next(1, 20) + felix.Advantage;
+    int dmgenemy = Random.Shared.Next(1, 20);
+    if (dmgfelix > dmgenemy)
+    {
+        if ((dmgfelix > 1) && (dmgfelix < 5))
+        {
+            Console.WriteLine($"Успешно! Ты нанес противнику {dmgfelix} единицы урона!\nТы чувствуешь себя менее напряженным.");
+        }
+        else if ((dmgfelix >= 5) && (dmgfelix <= 10))
+        {
+            Console.WriteLine($"Успешно! Ты нанес противнику {dmgfelix} единиц урона!\nТы чувствуешь как часть сил вернулась к тебе.");
+        }
+        else if ((dmgfelix > 10) && (dmgfelix <= 19))
+        {
+            Console.WriteLine($"Успешно! Ты нанес противнику {dmgfelix} единиц урона!\nТвоя кровь начинает бегать по телу гораздо активнее,\n будто заранее подготавливая твое тело к атаке гораздо сильнее этой.");
+        }
+        else
+        {
+            Console.WriteLine($"Успешно! Ты нанес противнику зубодробительные {dmgfelix} единиц урона!!\nТы ощущаешь великий прилив сил.\nМожет ты способен нанести разрушительную атаку?");
+        }
+            enemy.Health -= dmgfelix;
+        felix.Stamina += dmgfelix;
+    }
+    else if (dmgfelix < dmgenemy) 
+    {
+        if ((dmgenemy > 1) && (dmgenemy < 5))
+        {
+            Console.WriteLine($"Ух... Твоя атака не смогла сравниться с легким шлепком от противника.\nУ него получилось нанести {dmgenemy} единицы урона.\nНа его лице появилась легкая гримаса улыбки.");
+        }
+        else if ((dmgenemy >= 5) && (dmgenemy <= 10))
+        {
+            Console.WriteLine($"Ой... Противник успел увидеть твою атаку и, увернувшись, нанес ответный удар.\nУ него получилось нанести {dmgenemy} единиц урона.\nЕго кулак покрылся твоей кровью и ты видишь как он довольствуется собой.");
+        }
+        else if ((dmgenemy > 10) && (dmgenemy <= 19))
+        {
+            Console.WriteLine($"Ай-ай-ай... Твоя атака не смогла превзойти мощь противника.\nУ него получилось нанести {dmgenemy} единиц урона.\nТвоя кровь хлестнула на пол, а спокойное выражение лица противника пропало, оно сменилось маниакальной улыбкой.\nТы думаешь что с этой битвой надо покончить как можно быстрее, пока все силы не покинули тебя.");
+        }
+        else
+        {
+            Console.WriteLine("ХРУСТ......");
+            Console.ReadKey();
+            Console.WriteLine($"В твоих глазах потемнело на пару секунд, но противник не решил этим воспользоваться.\nОн нанес уничтожающие {dmgenemy} единиц урона!!!\nТы удивлен как ты все еще стоишь на ногах, но не решаешь тратить время на раздумия.\n«Сначала надо покончить с битвой и только потом заботиться о переломах» подумал ты про себя");
+        }
+        felix.Health -= dmgenemy;
+        enemy.Stamina += dmgenemy;
+    }
+    else
+    {
+        Console.WriteLine("КЛАЦ! Ваши оружия сцепились.\nНикто не попал, но вы оба почувствовали и собственные удары, и удары друг друга.\nЭто сильно сказалось на ваших силах.");
+        enemy.Stamina -= dmgenemy / 2;
+        felix.Stamina -= dmgfelix / 2;
+    }
+    //добавить гейм овер когда хп Феликса падает до 0.
+}
+// Функция для заканчивания хода с функцией распада хп выше максимального
+void TurnEnd () {
+    int HPOverflow;
+    if (felix.Health > felix.MaxHealth)
+    {
+       
+        HPOverflow = felix.Health - felix.MaxHealth;
+        
+        felix.Health -= (int)HPOverflow / 2;
+        //В случае если пытается разделить 1 на 2, то будет сохраняться 1 лишнее хп, поэтому вычитается 1 лишнее хп
+        if (HPOverflow == 1) {
+            felix.Health -= 1;
+        }
+    }
+    Console.Clear();
+}
+void SkillUse()
+{
+    //допить систему скиллов
+}
+// дебаг тул
+bool debug = true;
+while (debug)
+{
+    var x = Console.ReadLine();
+    Console.Clear();
+    switch (x)
+    {
+        case "0":
+            felix.Health -= 10;
+            break;
+        case "1":
+            felix.Health += 10;
+            break;
+        case "2":
+            felix.MaxHealth -= 10;
+            break;
+        case "3":
+            felix.MaxHealth += 10;
+            break;
+        case "4":
+            TurnEnd();
+            break;
+        case "5":
+            goto fightsequence;
+        case "6":
+            felix.Stamina -= 10;
+            break;
+        case "7":
+            felix.Stamina += 10;
+            break;
+        case "8":
+            felix.Advantage -= 2;
+            break;
+        case "9":
+            felix.Advantage += 2;
+            break;
+        case "-":
+            debug = false;
+            break;
+        default:
+            Console.WriteLine("Лист доступных функций: \n" +
+                "0 - убрать 10 хп\n" +
+                "1 - добавить 10 хп\n" +
+                "2 - убрать 10 макс хп\n" +
+                "3 - добавить 10 макс хп\n" +
+                "4 - проверка функции Закончить Ход\n" +
+                "5 - тестовый бой\n" +
+                "6 - убавить стамину\n" +
+                "7 - добавить стамину\n" +
+                "8 - убавить очки преимущества\n" +
+                "9 - добавить очки преимущества\n" +
+                "- - выйти из дебага");
+            break;
+    
+    }
+    // чтобы не показывало статы когда выходишь из дебага
+    if (debug)
+    {
+        Console.WriteLine($"Здоровье: {felix.Health}/{felix.MaxHealth}\n" +
+            $"Выносливость: {felix.Stamina}/20\n" +
+            $"Преимущество Феликса: {felix.Advantage}");
+    }
+}
+fightsequence:
+bool fight = true;
+while (fight)
+{
+    Console.WriteLine("Перед вами стоит противник, что вы собираетесь сделать?");
+    Console.WriteLine("1 - Атаковать\n" +
+    "2 - Способности\n" +
+    "3 - Защититься\n" +
+    "4 - Предметы\n" +
+    "0 - Завершить ход");
+    var fightchoice = Console.ReadLine();
+    switch (fightchoice)
+    {
+        case "1":
+            Attack();
+            break;
+        case "2":
+            //сначала выводит названия скиллов, потом игрок выбирает один, смотрит описание, сколько выносливости затратит и сколько урона нанесет, после чего игрок либо подтверждает выбор скилла, либо возвращается.
+            foreach (var skill in skills)
+            {
+                Console.WriteLine(skill.SkillName);
+            }
+            string skillname = Console.ReadLine();
+            skills.Where(x=> x.SkillName == skillname);
+            break;
+        case "0":
+            TurnEnd();
+            break;
+
+    }
+
+}
