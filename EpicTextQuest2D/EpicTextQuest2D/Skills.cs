@@ -19,5 +19,9 @@ namespace EpicTextQuest2D
             Cost = cost;
             Heal = heal;
         }
+        public void SkillUse()
+        {
+            Console.WriteLine($"{SkillName} - {Description}\nНаносит {Damage} единиц урона.\nТратит {Cost} единиц выносливости.\nСделал ли я правильный выбор? Д/Н");
+        }
     }
 }

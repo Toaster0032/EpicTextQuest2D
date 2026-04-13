@@ -37,6 +37,10 @@ while (debug)
             TurnEnd();
             break;
         case "5":
+            felix.Health = 100;
+            felix.Stamina = 20;
+            enemy.Health = 100;
+            enemy.Stamina = 10;
             Fightsequence();
             break;
         case "6":
@@ -152,10 +156,7 @@ void TurnEnd () {
 
     Console.Clear();
 }
-void SkillUse()
-{
-    //допилить систему скиллов
-}
+
 
 void Fightsequence()
 {
@@ -179,14 +180,30 @@ void Fightsequence()
 
                 break;
             case "2":
-                //сначала выводит названия скиллов, потом игрок выбирает один, смотрит описание, сколько выносливости затратит и сколько урона нанесет, после чего игрок либо подтверждает выбор скилла, либо возвращается.
+            //сначала выводит названия скиллов, потом игрок выбирает один, смотрит описание, сколько выносливости затратит и сколько урона нанесет, после чего игрок либо подтверждает выбор скилла, либо возвращается.
+            skillchoice:
+                Console.WriteLine("Способности которые я знаю:");
                 foreach (var skill in skills)
                 {
-                    Console.WriteLine(skill.SkillName);
+                    Console.WriteLine($"-{skill.SkillName}");
                 }
+                Console.WriteLine("Но какую выбрать? (написать полное название)");
                 string skillname = Console.ReadLine();
-                skills.Where(x => x.SkillName == skillname);
-                
+                skills.Where(x => x.SkillName == skillname).First().SkillUse();
+                var skillchoice = Console.ReadLine();
+                switch (skillchoice)
+                {
+                    case "Д":
+                        enemy.Health -= skills.Where(x => x.SkillName == skillname).First().Damage;
+                        felix.Stamina -= skills.Where(x => x.SkillName == skillname).First().Cost;
+                        felix.Health += skills.Where(x => x.SkillName == skillname).First().Heal;
+                        break;
+                    case "Н":
+                        goto skillchoice;
+                    default:
+                        Console.WriteLine("Посреди боя трудно собраться с мыслями, попробую еще раз.");
+                        goto skillchoice;
+                }
                 break;
             case "3":
                 break;
@@ -199,7 +216,7 @@ void Fightsequence()
                 Console.Clear();
                 break;
         }
-        
+        //Добавить чек на колличество действий за ход
 
 
     }
