@@ -2,6 +2,7 @@
 
 Felix felix = new Felix(100, 100, 20, 0, 1, 1);
 Enemy enemy = new Enemy(100, 100, 10, 1, 1);
+Floor1 floor1 = new Floor1();
 List <Skills> skills = new List<Skills>();
 Skills burning_servants = new Skills("Пылающие слуги", "«Используя магию огня, я могу создать огненных существ, которые атакуют всех вокруг меня.»", 15 + felix.Advantage,5,0);
 Skills thunder_kick = new Skills("Молниеносный пинок", "«Магия молнии способна помочь мне нанести сокрушающий и молниеносный удар противнику.»", 25 + (felix.Advantage * 1.5),10,0);
@@ -13,6 +14,12 @@ skills.Add(thunder_kick);
 skills.Add(grand_javelin);
 skills.Add(shadow_intervention);
 skills.Add(rejected_by_flame);
+string[][] layout = new string[4][];
+layout[0] = new string[] { "[1]", " ", " ", " " };
+layout[1] = new string[] { " ", "[ ]", " ", " " };
+layout[2] = new string[] { " ", " ", "[ ]", " " };
+layout[3] = new string[] { " ", " ", " ", "[*]" };
+
 // дебаг тул
 bool debug = true;
 while (debug)
@@ -55,6 +62,19 @@ while (debug)
         case "9":
             felix.Advantage += 2;
             break;
+        case "10":
+            foreach (string[] lay in layout)
+            {
+                foreach (string lay2 in lay)
+                {
+                    Console.Write($"{lay2}  ");
+                }
+                Console.WriteLine();
+            }
+            break;
+        case "11":
+            Traversing();
+            break;
         case "-":
             debug = false;
             break;
@@ -70,6 +90,8 @@ while (debug)
                 "7 - добавить стамину на 10\n" +
                 "8 - убавить 2 очка преимущества\n" +
                 "9 - добавить 2 очка преимущества\n" +
+                "10 - показать этаж\n" +
+                "11 - передвижение\n"+
                 "- - выйти из дебага");
             break;
 
@@ -139,12 +161,31 @@ void Attack ()
     Console.ReadKey();
     Console.Clear();
 }
+void Block()
+{
+    int dmgenemy = Random.Shared.Next(1, 20);
+    felix.Health = felix.Health * 2;
+    felix.Health -= dmgenemy;
+    felix.Health = felix.Health / 2;
+    if (dmgenemy == 1)
+    {
+        Console.WriteLine($"Враг нанес тебе 1 единицу урона, но ты этого даже не почуствовал.");
+    }
+    else if ((dmgenemy > 1) && (dmgenemy < 5))
+    {
+        Console.WriteLine($"Враг нанес тебе {dmgenemy} единицы урона, но ты почусвовал всего половину его удара.");
+    }
+    else if (dmgenemy >= 5)
+    {
+        Console.WriteLine($"Враг нанес тебе {dmgenemy} единиц урона, но ты почусвовал всего половину его удара.");
+    }
+    Console.ReadKey();
+}
 // Функция для заканчивания хода с функцией распада хп выше максимального
 void TurnEnd () {
     int HPOverflow;
     if (felix.Health > felix.MaxHealth)
     {
-       
         HPOverflow = felix.Health - felix.MaxHealth;
         
         felix.Health -= (int)HPOverflow / 2;
@@ -153,55 +194,54 @@ void TurnEnd () {
             felix.Health -= 1;
         }
     }
-
     Console.Clear();
 }
 
 
 void Fightsequence()
 {
-    
+    felix.AtkAmmount = felix.MaxAtkAmmount;
     while (felix.Health > 0 && enemy.Health > 0)
     {
-        felix.AtkAmmount = felix.MaxAtkAmmount;
-        enemy.AtkAmmount = enemy.MaxAtkAmmount;
-        Console.WriteLine("Перед вами стоит противник, что вы собираетесь сделать?");
-        Console.WriteLine("1 - Атаковать\n" +
-        "2 - Способности\n" +
-        "3 - Защититься\n" +
-        "4 - Предметы\n" +
-        "5 - Осмотреться");
-        var fightchoice = Console.ReadLine();
-        Console.Clear();
-        switch (fightchoice)
+        do
         {
-            case "1":
-                Attack();
-
-                break;
-            case "2":
-            //сначала выводит названия скиллов, потом игрок выбирает один, смотрит описание, сколько выносливости затратит и сколько урона нанесет, после чего игрок либо подтверждает выбор скилла, либо возвращается.
-            skillchoice:
-                Console.WriteLine("Способности которые я знаю:");
-                foreach (var skill in skills)
-                {
-                    Console.WriteLine($"- {skill.SkillName}");
-                }
-                Console.WriteLine("Но какую выбрать? (написать полное название)");
-                string skillname = Console.ReadLine();
-                Console.Clear();
-                if (skills.Any(x => x.SkillName == skillname) && skills.Where(x => x.SkillName == skillname).First().Cost < felix.Stamina)
-                {
-                    skills.Where(x => x.SkillName == skillname).First().SkillUse();
-                    var skillchoice = Console.ReadLine();
-                    skillchoice = skillchoice.ToUpperInvariant();
-                    switch (skillchoice)
+            Console.WriteLine("Перед вами стоит противник, что вы собираетесь сделать?");
+            Console.WriteLine("1 - Атаковать\n" +
+            "2 - Способности\n" +
+            "3 - Защититься\n" +
+            "4 - Осмотреться");
+            var fightchoice = Console.ReadLine();
+            Console.Clear();
+            switch (fightchoice)
+            {
+                case "1":
+                    Attack();
+                    break;
+                case "2":
+                //сначала выводит названия скиллов, потом игрок выбирает один, смотрит описание, сколько выносливости затратит и сколько урона нанесет, после чего игрок либо подтверждает выбор скилла, либо возвращается.
+                skillchoice:
+                    Console.WriteLine("«Способности которые я знаю:");
+                    foreach (var skill in skills)
                     {
-                        case "Д":
+                        Console.WriteLine($"- {skill.SkillName}");
+                    }
+                    Console.WriteLine("Но какую выбрать?» (написать полное название)");
+                    string skillname = Console.ReadLine();
+                    Console.Clear();
+                    if (skills.Any(x => x.SkillName == skillname) && skills.Where(x => x.SkillName == skillname).First().Cost < felix.Stamina)
+                    {
+                        skills.Where(x => x.SkillName == skillname).First().SkillUse();
+                        var skillchoice = Console.ReadLine();
+                        skillchoice = skillchoice.ToUpperInvariant();
+                        skillconfirm:
+                        switch (skillchoice)
+                        { 
+                            case "Д":
                             enemy.Health -= skills.Where(x => x.SkillName == skillname).First().Damage;
                             felix.Stamina -= skills.Where(x => x.SkillName == skillname).First().Cost;
                             felix.Health += skills.Where(x => x.SkillName == skillname).First().Heal;
-                            //надо бы добавить текст при использовании скиллов, а пока - 
+                            Console.WriteLine($"«Получилось. Судя по всему противник это не оценил, но да ладно, главное что это приблизило меня к победе.»");
+                            Console.ReadKey();
                             Console.Clear();
                             break;
                         case "Н":
@@ -209,41 +249,42 @@ void Fightsequence()
                             goto skillchoice;
                         default:
                             Console.Clear();
-                            Console.WriteLine("Посреди боя трудно собраться с мыслями, попробую еще раз.");
+                            Console.WriteLine("«Посреди боя трудно собраться с мыслями, попробую еще раз.»");
                             Console.ReadKey();
                             Console.Clear();
-                            goto skillchoice;
+                            goto skillconfirm;
+                        }
                     }
-                }
-                else if (skills.Where(x => x.SkillName == skillname).First().Cost > felix.Stamina)
-                {
-                    Console.Clear();
-                    Console.WriteLine("Я боюсь что если я попытаюсь использовать эту способность, мои ноги перестанут держать меня.\nМожет мне лучше использовать обычную атаку?");
-                    Console.ReadKey();
-                    Console.Clear();
-                }
-                else if (skills.Any(x => x.SkillName != skillname))
-                {
-                    Console.Clear();
-                    Console.WriteLine("Неужели я так сильно изнеможен, что не могу нормально вспомнить название своих способностей?");
-                    Console.ReadKey();
-                    Console.Clear();
-                    goto skillchoice;
-                }
+                    else if (skills.Where(x => x.SkillName == skillname).First().Cost > felix.Stamina)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("«Я боюсь что если я попытаюсь использовать эту способность, мои ноги перестанут держать меня.»\n«Может мне лучше использовать обычную атаку?»");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else if (skills.Any(x => x.SkillName != skillname))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("«Неужели я так сильно изнеможен, что не могу нормально вспомнить название своих способностей?»");
+                        Console.ReadKey();
+                        Console.Clear();
+                        goto skillchoice;
+                    }
 
                     break;
-            case "3":
-                break;
-            case "4":
-                break;
-            case "5":
-                Console.WriteLine($"Ты осматриваешь свое тело на наличие ран.\nТвои очки здоровья - {felix.Health} / {felix.MaxHealth}, твоя выносливость - {felix.Stamina} / 20\n" +
-                    $"Ты бегло оглядываешь своего противника, пытаясь понять насколько сильно может затянуться драка.\nЕго очки здоровья - {enemy.Health} / {enemy.MaxHealth}, его выносливость - {enemy.Stamina} / 20");
-                Console.ReadKey();
-                Console.Clear();
-                break;
+                case "3":
+                    Block();
+                    break;
+                case "4":
+                    Console.WriteLine($"Ты осматриваешь свое тело на наличие ран.\nТвои очки здоровья - {felix.Health} / {felix.MaxHealth}, твоя выносливость - {felix.Stamina} / 20\n" +
+                        $"Ты бегло оглядываешь своего противника, пытаясь понять насколько сильно может затянуться драка.\nЕго очки здоровья - {enemy.Health} / {enemy.MaxHealth}, его выносливость - {enemy.Stamina} / 20");
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+            }
+            felix.AtkAmmount -= 1;
         }
-        //Добавить чек на колличество действий за ход
+        while (felix.AtkAmmount > 0);
         TurnEnd();
 
     }
@@ -281,7 +322,14 @@ void Fightsequence()
         Console.WriteLine("Ты смог одержать победу в этом сражении.\nТы бы с радостью отпраздновал это, но каждая секунда тебе дорога, и каждый лишний звук может оказаться твоим последним.\nТы двигаешься дальше.");
     }
 }
-
+void Traversing()
+{
+    //доделать систему передвижения после того как будет доделана карта :sob:
+    Console.WriteLine("Идти далее?");
+    Console.ReadKey();
+    layout[3][3] = "[ ]";
+    layout[2][2] = "[*]";
+}
 Console.WriteLine(
     "=====================================================================================\n" +
     "=====================================================================================\n" +

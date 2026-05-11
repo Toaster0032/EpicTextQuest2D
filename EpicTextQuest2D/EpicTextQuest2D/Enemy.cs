@@ -30,16 +30,12 @@ namespace EpicTextQuest2D
                 }
             }
         }
-        public int AtkAmmount { get; set; }
-        public int MaxAtkAmmount { get; set; }
 
         public Enemy (double health, int maxh, int stame, int atkammount, int maxatkammount) 
         {
             Health = health;
             MaxHealth = maxh;
             Stamina = stame;
-            AtkAmmount = atkammount;
-            MaxAtkAmmount = maxatkammount;
         }
     }
 }
