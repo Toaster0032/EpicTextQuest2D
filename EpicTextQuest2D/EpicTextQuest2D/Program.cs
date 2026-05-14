@@ -1,8 +1,7 @@
 ﻿using EpicTextQuest2D;
-using System.Runtime.ConstrainedExecution;
-
-Felix felix = new Felix(100, 100, 20, 0, 1, 1);
+Felix felix = new Felix(100, 100, 20, 0, 1, 1, 0);
 Enemy enemy = new Enemy(100, 100, 10, 1, 1);
+var glitchy = new RandomLetter();
 List <Skills> skills = new List<Skills>();
 Skills burning_servants = new Skills("Пылающие слуги", "«Используя магию огня, я могу создать огненных существ, которые атакуют всех вокруг меня.»", 15 + felix.Advantage,5,0);
 Skills thunder_kick = new Skills("Молниеносный пинок", "«Магия молнии способна помочь мне нанести сокрушающий и молниеносный удар противнику.»", 25 + (felix.Advantage * 1.5),10,0);
@@ -84,9 +83,11 @@ while (debug)
             $"Преимущество Феликса: {felix.Advantage}");
     }
 }
-void Next()
+void Next(int progress)
 {
     Console.ReadKey();
+    felix.Progress += 1;
+    progress = felix.Progress;
     Console.Clear();
 }
 void Attack ()
@@ -213,7 +214,7 @@ void Fightsequence()
                     Console.WriteLine("Но какую выбрать?» (написать полное название)");
                     string skillname = Console.ReadLine();
                     Console.Clear();
-                    if (skills.Any(x => x.SkillName == skillname) && skills.Where(x => x.SkillName == skillname).First().Cost < felix.Stamina)
+                    if ((skills.Any(x => x.SkillName == skillname)) && (skills.Where(x => x.SkillName == skillname).First().Cost < felix.Stamina))
                     {
                         skills.Where(x => x.SkillName == skillname).First().SkillUse();
                         var skillchoice = Console.ReadLine();
@@ -240,13 +241,6 @@ void Fightsequence()
                             goto skillconfirm;
                         }
                     }
-                    else if (skills.Where(x => x.SkillName == skillname).First().Cost > felix.Stamina)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("«Я боюсь что если я попытаюсь использовать эту способность, мои ноги перестанут держать меня.»\n«Может мне лучше использовать обычную атаку?»");
-                        Console.ReadKey();
-                        Console.Clear();
-                    }
                     else if (skills.Any(x => x.SkillName != skillname))
                     {
                         Console.Clear();
@@ -255,6 +249,14 @@ void Fightsequence()
                         Console.Clear();
                         goto skillchoice;
                     }
+                    else if (skills.Where(x => x.SkillName == skillname).First().Cost > felix.Stamina)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("«Я боюсь что если я попытаюсь использовать эту способность, мои ноги перестанут держать меня.»\n«Может мне лучше использовать обычную атаку?»");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    
 
                     break;
                 case "3":
@@ -307,6 +309,7 @@ void Fightsequence()
         Console.WriteLine("Ты смог одержать победу в этом сражении.\nТы бы с радостью отпраздновал это, но каждая секунда тебе дорога, и каждый лишний звук может оказаться твоим последним.\nТы двигаешься дальше.");
     }
 }
+//«»
 Console.WriteLine(
     "=====================================================================================\n" +
     "=====================================================================================\n" +
@@ -338,43 +341,100 @@ switch (z)
         debug = true;
         goto debugtool;
     default:
-        Next();
+        Next(1);
         break;
 }
-Console.WriteLine("Как бы вы предпочли чтобы я обращался к вашему Герою?");
-string lastname = Console.ReadLine();
-Console.WriteLine("Ах! Какое... наверное прекрасное имя?\n\nНажмите для продолжения");
-Next();
-Console.WriteLine("Ладно, не буду скрывать тайну, я упустил его мимо ушей. Поэтому буду звать вашего героя так, как я уже привык.\n\nНажмите для продолжения");
-Next();
-Console.WriteLine("Раз у меня так плохо получается слушать, лучше сразу перейду к тому, что я умею лучше всего - рассказывать истории.\nИ вот у меня есть одна готовая.\n\nНажмите для продолжения");
-Next();
+Console.WriteLine("З..");
+System.Threading.Thread.Sleep(700);
+Console.Clear();
+Console.WriteLine("За..");
+System.Threading.Thread.Sleep(700);
+Console.Clear();
+Console.WriteLine("Заг...");
+System.Threading.Thread.Sleep(700);
+Console.Clear();
+Console.WriteLine("Загр...");
+System.Threading.Thread.Sleep(700);
+Console.Clear();
+Console.WriteLine("Загру...");
+System.Threading.Thread.Sleep(700);
+Console.Clear();
+Console.WriteLine("Загруз...");
+System.Threading.Thread.Sleep(5000);
+Console.Clear();
+Console.WriteLine("Загруз....");
+System.Threading.Thread.Sleep(400);
+Console.Clear();
+Console.WriteLine("Загруз.....");
+System.Threading.Thread.Sleep(400);
+Console.Clear();
+Console.WriteLine("Загруз......");
+System.Threading.Thread.Sleep(400);
+Console.Clear();
+Console.WriteLine("Загруз.......");
+System.Threading.Thread.Sleep(400);
+Console.Clear();
+Console.WriteLine("Загруз........");
+System.Threading.Thread.Sleep(400);
+Console.Clear();
+Console.WriteLine("Загруз.........");
+System.Threading.Thread.Sleep(400);
+Console.Clear();
+Console.WriteLine("^$г!у?.#.@*.!...?$%@./(");
+System.Threading.Thread.Sleep(3000);
+Console.Clear();
+string glitch = "";
+for (int i = 0; i < 20; i++)
+{
+    glitchy.RandomString(2354, ref glitch);
+    Console.WriteLine(glitch);
+    System.Threading.Thread.Sleep(50);
+    Console.Clear();
+}
 Console.WriteLine(@"Холодно. Холодно и сыро, и всё болит. Ты просыпаешься в месте, напоминающем клетку в темнице.
-Дверь была выбита, будто бушующий ветер прошелся через всю темницу. Твой поток мыслей был прерван настолько ужасной головной болью,
-что даже больно думать и пытаться вспомнить что-либо. Есть только одна вещь в которой ты уверен - твоё имя, Феликс.
+Решетка была выбита, будто бушующий ветер прошелся через всю темницу. Твой поток мыслей был прерван настолько ужасной головной болью,
+что даже больно думать и пытаться вспомнить что-либо. Тебя не покидает чувство что как будто в твоем мозгу проели дыру 
+и вырвали что-то, что было очень важным для тебя. Есть только одна вещь в которой ты уверен - твоё имя... твоё имя?.
+Было бы ужасно если бы ты забыл своё имя, не так ли? А можешь ли ты его вспомнить?
 
 
 Нажмите для продолжения");
-Next();
+Next(2);
+
+Console.WriteLine("'Как бы вы предпочли чтобы я обращался к вашему Герою?'");
+string lastname = Console.ReadLine();
+Console.WriteLine("'Ах! Какое... наверное прекрасное имя.'\n\nНажмите для продолжения");
+Next(3);
+
+Console.WriteLine("'Ладно, не буду скрывать тайну, я упустил его мимо ушей. Поэтому буду звать вашего героя так, как я уже привык.'\n\nНажмите для продолжения");
+Next(4);
+
+Console.WriteLine("'Раз у меня так плохо получается слушать, лучше вернусь к тому, что я умею лучше всего - рассказывать истории.'\n\nНажмите для продолжения");
+Next(5);
+
+Console.WriteLine("«Феликс. Моё имя - Феликс Юсет.» Это маленькое, резкое воспоминание помогло тебе, отчасти, вернуться к чувствам.");
+
+Next(6);
+
 Console.WriteLine(@"Куски решеток твоей клетки были разбросаны по всему коридору, ты пытаешься вспомнить что такого здесь могло произойти,
 но все безуспешно, чем больше ты стараешься, тем сильнее становится мигрень.
 
 
 Нажмите для продолжения");
-Next();
+Next(7);
+
 Console.WriteLine(@"Собравшись со своими силами, ты встаешь с сырой земли. Твоя одежда рваная и потрепанная, но далеко не похожа на робу
 узника. Что бы здесь не случилось, оно произошло сразу после того как тебя сюда бросили, тебя даже не успели заковать в кандалы.
 
 
 Нажмите для продолжения");
-Next();
+Next(8);
+
 Console.WriteLine(@"Отряхнув с себя пыль, ты бросаешь взгляд на своё 'место заключения'. Не заметив ничего интересного, ты начинаешь стремительно идти в коридор.
 
 
 Нажмите для продолжения");
-Next();
-
-
+Next(9);
 
 
 
