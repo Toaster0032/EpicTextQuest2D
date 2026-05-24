@@ -26,7 +26,7 @@ namespace EpicTextQuest2D
         }
         public static void BlockDie(ref double health, ref int enemydie, ref int die)
         {
-            die = Random.Shared.Next(2, 4);
+            die = Random.Shared.Next(1, 4);
             enemydie = Random.Shared.Next(1, 20);
             health = (health * die - enemydie) / die;
 
@@ -66,19 +66,26 @@ namespace EpicTextQuest2D
                 }
                 else if (dmgenemy >= 5)
                 {
-                    Console.WriteLine($"Враг нанес тебе {dmgenemy} единиц урона, но ты почусвовал всего половину его удара.");
+                    Console.WriteLine($"Враг нанес тебе {dmgenemy} единиц урона, но ты почусвовал всего часть его удара.");
                 }
             }
             ame -= 1;
             Console.WriteLine("Нажмите для продолжения");
             Console.ReadKey();
         }
-        public static void Attack(int adv, ref double ehealth, ref double fhealth, ref int estamina, ref int fstamina)
+        public static void Attack(int prog, int adv, ref double ehealth, ref double fhealth, ref int estamina, ref int fstamina, ref int ame, ref int amf, int turn)
         {
             int dmgfelix = 0;
             int dmgenemy = 0;
             FightElements.AttackDie(ref dmgfelix, adv);
-            FightElements.AttackDie(ref dmgenemy, 0);
+            if ((prog < 17) && prog > 10)
+            {
+                FightElements.AttackDie(ref dmgenemy, 20);
+            }
+            else
+            {
+                FightElements.AttackDie(ref dmgenemy, 0);
+            }
             if (dmgfelix > dmgenemy)
             {
                 if ((dmgfelix > 1) && (dmgfelix < 5))
@@ -120,6 +127,48 @@ namespace EpicTextQuest2D
                     Console.ReadKey();
                     Console.WriteLine($"В твоих глазах потемнело на пару секунд, но противник не решил этим воспользоваться.\nОн нанес уничтожающие {dmgenemy} единиц урона!!!\nТы удивлен как ты все еще стоишь на ногах, но не решаешь тратить время на раздумия.\n«Сначала надо покончить с битвой и только потом заботиться о переломах» подумал ты про себя");
                 }
+                if ((prog >10) && (prog < 17))
+                if (turn == 1)
+                {
+                    Console.Clear();
+                    Console.WriteLine("«Слабак.»");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else if (turn == 2)
+                {
+                    Console.Clear();
+                    Console.WriteLine("«В следующий раз хотя бы попробуй замахнуться.»");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else if (turn == 3)
+                {
+                    Console.Clear();
+                    Console.WriteLine("«Как они вообще тебя могли нанять. Ты даже не пытаешься со мной справиться.»");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else if (turn == 4)
+                {
+                    Console.Clear();
+                    Console.WriteLine("«Я надеялся выдавить из тебя хоть какую-то информацию.» А на самом деле я просто тратил время зря.");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else if (turn == 5)
+                {
+                    Console.Clear();
+                    Console.WriteLine(@"Лучше бы ты умер еще по пути сюда. Тогда мне бы не пришлось вообще тратить на тебя силы.
+Ты подавал надежды как какой-то величавый ассасин, а ты не сильнее рядового его армии. 
+Ты подавал признаки чего-то интересного, я думал что наконец-то я смогу поразвлечься.
+Ты оказался пародией на достойного противника. Были те, которые горели в битве со мной.
+И они сгорали. А ты? Ты даже не разогрелся. Весь этот твой фальш завел тебя далеко.
+Пришло твое время расплатиться за него.");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+
                 fhealth -= dmgenemy;
                 estamina += dmgenemy;
             }
@@ -131,6 +180,8 @@ namespace EpicTextQuest2D
             }
             Console.ReadKey();
             Console.Clear();
+            ame -= 1;
+            amf -= 1;
         }
         public static void TurnEnd(ref double fhealth, int maxfhealth)
         {

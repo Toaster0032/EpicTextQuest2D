@@ -1,16 +1,17 @@
 ﻿using EpicTextQuest2D;
 #pragma warning disable
-double fhealth = 100;int maxfhealth = 100;int fstamina = 20;int adv = 0;int amf = 1;int mamf = 1;int prog = 0;int level = 0;
-double ehealth = 100;int maxehealth = 100;int estamina = 20;int ame = 1;int mame = 1;
-Felix felix = new Felix(fhealth, maxfhealth, fstamina, adv, amf, mamf, prog, level);
-Enemy enemy = new Enemy(ehealth, maxehealth, estamina, ame, mame);
+double fhealth = 100;int maxfhealth = 100;int fstamina = 20; int maxfstam = 20; int adv = 0;int amf = 1;int mamf = 1;int prog = 0;int level = 0;
+double ehealth = 100;int maxehealth = 100;int estamina = 20; int maxestam = 20;  int ame = 1;int mame = 1;
+Felix felix = new Felix(fhealth, maxfhealth, fstamina, maxfstam, adv, amf, mamf, prog, level);
+Enemy enemy = new Enemy(ehealth, maxehealth, estamina, maxestam, ame, mame);
 var glitchy = new RandomLetter();
 List<Skills> skills = new List<Skills>();
-skills.Add(new Skills() { SkillName = "Пылающие слуги", Description = "«Используя магию огня, я могу создать огненных существ, которые атакуют всех вокруг меня.»", Damage = 15 + felix.Advantage, Cost = 5, Heal = 0 });
-skills.Add(new Skills() { SkillName = "Молниеносный пинок", Description = "«Магия молнии способна помочь мне нанести сокрушающий и молниеносный удар противнику.»", Damage = 25 + (felix.Advantage * 1.5), Cost = 10, Heal = 0 });
-skills.Add(new Skills() { SkillName = "Великолепное копье", Description = "«Воспользовавшись магией молнии, я знаю как материализовать что-то наподобие копья, которое всегда найдет свой путь к противнику и поразит его с невероятной скоростью.»", Damage = 30 + (felix.Advantage * 2), Cost = 15, Heal = 0 });
-skills.Add(new Skills() { SkillName = "Теневое вмешательство", Description = "«Тени могут изменить темп битвы, вцепившись в противника, обездвижив его, после чего они резко вырвут свои когти, оставляя глубокие раны, напитывая меня вражеской кровью.»", Damage = 40 + felix.Advantage, Cost = 17, Heal = 20 });
-skills.Add(new Skills() { SkillName = "Отвергнутый огнем", Description = "«Сконцентрировав всю магию огня в себе, начнется резкое её отторжение, нанося урон всему и даже мне.»", Damage = 30 * (felix.Advantage / 2), Cost = 20, Heal = -10 });
+Skills b_s = new Skills("Пылающие слуги", "«Используя магию огня, я могу создать огненных существ, которые атакуют всех вокруг меня.»", 15 + felix.Advantage,5,0);
+Skills l_k = new Skills("Молниеносный пинок", "«Магия молнии способна помочь мне нанести сокрушающий и молниеносный удар противнику.»", 25 + (felix.Advantage * 1.5), 10,0);
+Skills g_j = new Skills("Великолепное копье", "«Воспользовавшись магией молнии, я знаю как материализовать что-то наподобие копья, которое всегда найдет свой путь к противнику и поразит его с невероятной скоростью.»", 30 + (felix.Advantage * 2), 15,0);
+Skills s_i = new Skills("Теневое вмешательство", "«Тени могут изменить темп битвы, вцепившись в противника, обездвижив его, после чего они резко вырвут свои когти, оставляя глубокие раны, напитывая меня вражеской кровью.»", 40 + felix.Advantage, 17,20);
+Skills rbf = new Skills("Отвергнутый огнем", "«Сконцентрировав всю магию огня в себе, начнется резкое её отторжение, нанося урон всему и даже мне.»", 30 * (felix.Advantage / 2), 20,-10);
+//skills.Add
 bool debug = false;
 debugtool:
 // дебаг тул
@@ -40,7 +41,7 @@ while (debug)
             felix.Stamina = 20;
             enemy.Health = 100;
             enemy.Stamina = 10;
-            Fightsequence(fhealth, ehealth, adv, estamina, fstamina, maxfhealth, maxehealth, amf, ame, mamf, mame);
+            Fightsequence();
             break;
         case "6":
             felix.Stamina -= 10;
@@ -76,9 +77,9 @@ while (debug)
     // чтобы не показывало статы когда выходишь из дебага
     if (debug)
     {
-        Console.WriteLine($"Здоровье: {felix.Health}/{felix.MaxHealth}\n" +
-            $"Выносливость: {felix.Stamina}/20\n" +
-            $"Преимущество Феликса: {felix.Advantage}");
+        Console.WriteLine($"Здоровье: {fhealth}/{maxfhealth}\n" +
+            $"Выносливость: {fstamina}/20\n" +
+            $"Преимущество Феликса: {adv}");
     }
 }
 void Next(ref int progress)
@@ -86,98 +87,147 @@ void Next(ref int progress)
     Console.ReadKey();
     progress += 1;
     Console.Clear();
+
 }
-void Fightsequence(double fhealth, double ehealth, int adv, int estamina, int fstamina, int maxfhealth, int maxehealth, int amf, int ame, int mamf, int mame)
+void Fightsequence()
 {
+    int turn = 1;
     amf = mamf;
+    ame = mame;
     int enemydmg = 0;
     int felixdmg = 0;
     while (fhealth > 0 && ehealth > 0)
     {
+        if (fstamina > maxfstam)
+        {
+            fstamina = maxfstam;
+        }
+        if (estamina > maxestam)
+        {
+            estamina = maxestam;
+        }
         do
         {
-            Console.WriteLine("Перед вами стоит противник, что вы собираетесь сделать?");
+        fightchoice:
+            amf = mamf;
+            ame = mame;
+            Console.WriteLine(@$" Ход {turn} 
+Перед вами стоит противник, что вы собираетесь сделать?");
             Console.WriteLine("1 - Атаковать\n" +
             "2 - Способности\n" +
             "3 - Защититься\n" +
-            "4 - Осмотреться");
+            "4 - Осмотреться\n");
             var fightchoice = Console.ReadLine();
             Console.Clear();
             switch (fightchoice)
             {
                 case "1":
-                    FightElements.Attack(adv, ref ehealth, ref fhealth, ref estamina, ref fstamina);
+                    FightElements.Attack(prog, adv, ref ehealth, ref fhealth, ref estamina, ref fstamina, ref ame, ref amf, turn);
                     break;
                 case "2":
                 //сначала выводит названия скиллов, потом игрок выбирает один, смотрит описание, сколько выносливости затратит и сколько урона нанесет, после чего игрок либо подтверждает выбор скилла, либо возвращается.
                 skillchoice:
-                    Console.WriteLine("«Способности которые я знаю:");
-                    foreach (var skill in skills)
+                    if (skills.Exists(x => x.Cost > 0))
                     {
-                        Console.WriteLine($"- {skill.SkillName}, им я нанесу {skill.Damage} единиц урона, стоит {skill.Cost} выносливости");
-                    }
-                    Console.WriteLine("Но какую выбрать?» (написать полное название)");
-                    string skillname = Console.ReadLine();
-                    Console.Clear();
-                    if ((skills.Any(x => x.SkillName == skillname)) && (skills.Where(x => x.SkillName == skillname).First().Cost < fstamina))
-                    {
-                        skills.Where(x => x.SkillName == skillname).First().SkillUse();
-                        var skillchoice = Console.ReadLine();
-                        skillchoice = skillchoice.ToUpperInvariant();
-                    skillconfirm:
-                        switch (skillchoice)
+                        Console.WriteLine("«Способности которые я знаю:");
+                        foreach (var skill in skills)
                         {
-                            case "Д":
-                                ehealth -= skills.Where(x => x.SkillName == skillname).First().Damage;
-                                fstamina -= skills.Where(x => x.SkillName == skillname).First().Cost;
-                                fhealth += skills.Where(x => x.SkillName == skillname).First().Heal;
-                                Console.WriteLine($"«Получилось. Судя по всему противник это не оценил, но да ладно, главное что это приблизило меня к победе.»");
-                                Console.ReadKey();
-                                Console.Clear();
-                                break;
-                            case "Н":
-                                Console.Clear();
-                                goto skillchoice;
-                            default:
-                                Console.Clear();
-                                Console.WriteLine("«Посреди боя трудно собраться с мыслями, попробую еще раз.»");
-                                Console.ReadKey();
-                                Console.Clear();
-                                goto skillconfirm;
+                            Console.WriteLine($"- {skill.SkillName}, им я нанесу {skill.Damage} единиц урона, стоит {skill.Cost} выносливости");
+                        }
+                        Console.WriteLine("Но какую выбрать?» (написать полное название)");
+                        string skillname = Console.ReadLine();
+                        Console.Clear();
+                        if ((skills.Any(x => x.SkillName == skillname)) && (skills.Where(x => x.SkillName == skillname).First().Cost < fstamina))
+                        {
+                            skills.Where(x => x.SkillName == skillname).First().SkillUse();
+                            var skillchoice = Console.ReadLine();
+                            skillchoice = skillchoice.ToUpperInvariant();
+                        skillconfirm:
+                            switch (skillchoice)
+                            {
+                                case "Д":
+                                    ehealth -= skills.Where(x => x.SkillName == skillname).First().Damage;
+                                    fstamina -= skills.Where(x => x.SkillName == skillname).First().Cost;
+                                    fhealth += skills.Where(x => x.SkillName == skillname).First().Heal;
+                                    Console.WriteLine($"«Получилось. Судя по всему противник это не оценил, но да ладно, главное что это приблизило меня к победе.»");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                    break;
+                                case "Н":
+                                    Console.Clear();
+                                    goto skillchoice;
+                                default:
+                                    Console.Clear();
+                                    Console.WriteLine("«Посреди боя трудно собраться с мыслями, попробую еще раз.»");
+                                    Console.ReadKey();
+                                    Console.Clear();
+                                    goto skillconfirm;
+                            }
+                        }
+                        else if (skills.Any(x => x.SkillName != skillname))
+                        {
+                            Console.Clear();
+                            Console.WriteLine("«Неужели я так сильно изнеможен, что не могу нормально вспомнить название своих способностей?»");
+                            Console.ReadKey();
+                            Console.Clear();
+                            goto skillchoice;
+                        }
+                        else if (skills.Where(x => x.SkillName == skillname).First().Cost > fstamina)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("«Я боюсь что если я попытаюсь использовать эту способность, мои ноги перестанут держать меня.»\n«Может мне лучше использовать обычную атаку?»");
+                            Console.ReadKey();
+                            Console.Clear();
                         }
                     }
-                    else if (skills.Any(x => x.SkillName != skillname))
+                    else
                     {
-                        Console.Clear();
-                        Console.WriteLine("«Неужели я так сильно изнеможен, что не могу нормально вспомнить название своих способностей?»");
+                        Console.WriteLine(@"«Я точно помню, что у меня были какие-то магические силы но... я вообще не могу вспомнить как я их использовал. 
+Лучше пока не буду пробовать»");
                         Console.ReadKey();
                         Console.Clear();
-                        goto skillchoice;
-                    }
-                    else if (skills.Where(x => x.SkillName == skillname).First().Cost > fstamina)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("«Я боюсь что если я попытаюсь использовать эту способность, мои ноги перестанут держать меня.»\n«Может мне лучше использовать обычную атаку?»");
-                        Console.ReadKey();
-                        Console.Clear();
+                        goto fightchoice;
                     }
 
-
-                    break;
+                        break;
                 case "3":
+                    if ((prog > 10) && (prog < 17))
+                    {
+                        Console.WriteLine(@"Страх настолько сильно сковал тебя, что ты даже не можешь нормально составить руки.
+Надо драться");
+                        Console.ReadKey();
+                        Console.Clear();
+                        goto fightchoice;
+                    }
                     FightElements.Block(ref fhealth, ref ame);
                     break;
                 case "4":
-                    Console.WriteLine($"Ты осматриваешь свое тело на наличие ран.\nТвои очки здоровья - {fhealth} / {maxfhealth}, твоя выносливость - {fstamina} / 20\n" +
+                    if ((prog > 10) && (prog < 17))
+                    {
+                        Console.WriteLine($"Ты осматриваешь свое тело на наличие ран.\nТвои очки здоровья - {fhealth} / {maxfhealth}, твоя выносливость - {fstamina} / 20\n" +
+                        $"Ты пытаешься разглядеть своего противника, но чем больше ты старешься, тем больше ты чувствуешь безысходность. Его очки здоровья - ??? / ???, его выносливость - ??? / 20");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Ты осматриваешь свое тело на наличие ран.\nТвои очки здоровья - {fhealth} / {maxfhealth}, твоя выносливость - {fstamina} / 20\n" +
                         $"Ты бегло оглядываешь своего противника, пытаясь понять насколько сильно может затянуться драка.\nЕго очки здоровья - {ehealth} / {maxehealth}, его выносливость - {estamina} / 20");
-                    Console.ReadKey();
-                    Console.Clear();
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
                     continue;
+                default:
+                    goto fightchoice;
             }
             amf -= 1;
         }
         while (amf > 0);
         FightElements.TurnEnd(ref fhealth, maxfhealth);
+        turn += 1;
+        
+        
+        
         if (ame > 0)
         {
             FightElements.AttackDie(ref enemydmg, 0);
@@ -186,38 +236,46 @@ void Fightsequence(double fhealth, double ehealth, int adv, int estamina, int fs
             Console.ReadKey();
             Console.Clear();
         }
-        if (fhealth <= 0)
+        if ((prog < 17) && (fhealth <= 0))
         {
-            Console.WriteLine("Ты падаешь на пол без сил. Ты, не успевая даже придумать последних слов, чувствуешь как противник наносит свою завершающую атаку и...");
-            Console.ReadKey();
-            Console.Clear();
-            Console.WriteLine(
-            "=====================================================================================\n" +
-            "=====================================================================================\n" +
-            "===■■=======■■=======================■■===========■■=================================\n" +
-            "===■■======■■========================■■===========■■=================================\n" +
-            "===■■=====■■=========================■■=========■■■■=================================\n" +
-            "===■■====■■==========================■■========■■=■■=================================\n" +
-            "===■■===■■===========================■■=======■■==■■=================================\n" +
-            "===■■==■■============================■■======■■===■■=================================\n" +
-            "===■■■■==============================■■=====■■====■■=================================\n" +
-            "===■■■■==============================■■====■■=====■■=================================\n" +
-            "===■■==■■============================■■===■■======■■=================================\n" +
-            "===■■===■■=====■■■■=■==■=■■■■=■==■===■■==■■=======■■=■■■■=■■■==■====■================\n" +
-            "===■■====■■====■==■=■==■=■====■==■===■■=■■========■■=■====■==■=■====■================\n" +
-            "===■■=====■■===■==■=■■■■=■■■==■==■===■■■■=========■■=■====■==■=■■■■=■================\n" +
-            "===■■======■■==■==■=■==■=■====■==■===■■===========■■=■====■■■==■==■=■================\n" +
-            "===■■=======■■=■■■■=■==■=■■■■=■■■■■==■■===========■■=■====■====■■■■=■================\n" +
-            "==================================■==================================================\n" +
-            "=====================================================================================\n" +
-            "=====================================================================================\n" +
-            "=====================================================================================\n"
-            );
-
+            Next(ref prog);
         }
-        else if (ehealth <= 0)
+        else if (prog > 18)
         {
-            Console.WriteLine("Ты смог одержать победу в этом сражении.\nТы бы с радостью отпраздновал это, но каждая секунда тебе дорога, и каждый лишний звук может оказаться твоим последним.\nТы двигаешься дальше.");
+            if (fhealth <= 0)
+            {
+                debug = false;
+                Console.WriteLine("Ты падаешь на пол без сил. Ты, не успевая даже придумать последних слов, чувствуешь как противник наносит свою завершающую атаку и...");
+                Console.ReadKey();
+                Console.Clear();
+                Console.WriteLine(
+                "=====================================================================================\n" +
+                "=====================================================================================\n" +
+                "===■■=======■■=======================■■===========■■=================================\n" +
+                "===■■======■■========================■■===========■■=================================\n" +
+                "===■■=====■■=========================■■=========■■■■=================================\n" +
+                "===■■====■■==========================■■========■■=■■=================================\n" +
+                "===■■===■■===========================■■=======■■==■■=================================\n" +
+                "===■■==■■============================■■======■■===■■=================================\n" +
+                "===■■■■==============================■■=====■■====■■=================================\n" +
+                "===■■■■==============================■■====■■=====■■=================================\n" +
+                "===■■==■■============================■■===■■======■■=================================\n" +
+                "===■■===■■=====■■■■=■==■=■■■■=■==■===■■==■■=======■■=■■■■=■■■==■====■================\n" +
+                "===■■====■■====■==■=■==■=■====■==■===■■=■■========■■=■====■==■=■====■================\n" +
+                "===■■=====■■===■==■=■■■■=■■■==■==■===■■■■=========■■=■====■==■=■■■■=■================\n" +
+                "===■■======■■==■==■=■==■=■====■==■===■■===========■■=■====■■■==■==■=■================\n" +
+                "===■■=======■■=■■■■=■==■=■■■■=■■■■■==■■===========■■=■====■====■■■■=■================\n" +
+                "==================================■==================================================\n" +
+                "=====================================================================================\n" +
+                "=====================================================================================\n" +
+                "=====================================================================================\n"
+                );
+            }
+
+            else if (ehealth <= 0)
+            {
+                Console.WriteLine("Ты смог одержать победу в этом сражении.\nТы бы с радостью отпраздновал это, но каждая секунда тебе дорога, и каждый лишний звук может оказаться твоим последним.\nТы двигаешься дальше.");
+            }
         }
     }
 }
@@ -376,8 +434,34 @@ Console.WriteLine(@"За дверью оказывается открытое п
 
 
 Нажмите для продолжения.");
+Next(ref prog);
+Console.WriteLine(@"Ты откашлеваешься. Пробыв снаружи около минуты твои легкие успели наполнится достаточным колличеством едкого дыма.
+К счастью кашель был сухим и просто пытался выгнать все лишнее из твоих легких. Переведя дыхание ты поднимаешь голову чтобы понять в какое здание ты забрел.
+Окруженным полутьмой, тебе трудно разглядеть где ты находишься, поэтому ты не сразу решился на то, чтобы пойти дальше. Но выбора не оставалось.
+Либо погрузиться во тьму, либо вернуться обратно наружу, где ты бы вряд ли добрался до следующего здания, если бы оно вообще было рядом. Ты идешь дальше.
 
 
+Нажмите для продолжения.");
+Next(ref prog);
+Console.WriteLine(@"Собравшись с духом ты идешь в неизвестное. Каждый шаг ты делаешь с опаской, и все равно натыкаешься на разные объекты на своем пути.
+Наконец твои ноги почувствовали ступеньки, и ты не задумываясь решил подняться вверх. «Может на втором этаже будет ловиться больше света?» - подумал ты.
+Поднявшись на второй этаж, ты слабо видел очертания долгого коридора перед собой. Тебя охватил животный страх. Он был там. Он стоял в конце коридора. Он ждал тебя.
+Твой мозг кричал тебе, пытался как можно сильно заставить твое тело пойти назад, но оно не слушалось. Твои ноги несли тебя вперед, теперь без опаски, как будто ты знал что дорога чиста.
+
+
+Нажмите для продолжения.");
+Next(ref prog);
+Console.WriteLine(@"«Ты мне был интерестен. Твои способности, они были чем-то новым для меня. Я думал что может быть, у меня получится их как-то изучить.
+Но даже после моего вмешательства, ты полез на меня. Я думал что ты не вспомнишь обо мне до самого конца, но каким-то чудом ты наткнулся на меня.
+Я не стал играть с тобой в поддавки, и ты смог выжить. В каком-то смысле наша цель была одинакова. А меня тошнит от похожих людей.
+Либо я узнаю как именно ты это делаешь, либо ты просто так умрешь и мир никогда не узнает о тебе.»
+
+
+Нажмите для продолжения.");
+Next(ref prog);
+
+Fightsequence();
+Console.WriteLine("бебе");
 
 //«»
 

@@ -8,37 +8,18 @@ namespace EpicTextQuest2D
     {
         public double Health {  get; set; }
         public int MaxHealth { get; set; }
-        private int stamina { get; set; }
-        public int Stamina 
-        {   get
-            {
-                return stamina;
-            }
-            set
-            {
-                if (value > 20)
-                {
-                    stamina = 20;
-                }
-                else if (value < 0)
-                {
-                    stamina = 0;
-                }
-                else
-                {
-                    stamina = value;
-                }
-            }
-        }
+        public int Stamina {  get; set; }
+        public int MaxStam {  get; set; }
         public int AtkAmmount { get; set; }
         public int MaxAtkAmmount { get; set; }
 
 
-        public Enemy (double health, int maxh, int stame, int atkammount, int maxatkammount) 
+        public Enemy (double health, int maxh, int stame, int maxstame, int atkammount, int maxatkammount) 
         {
             Health = health;
             MaxHealth = maxh;
             Stamina = stame;
+            MaxStam = maxstame;
             AtkAmmount = atkammount;
             MaxAtkAmmount = maxatkammount;
 
