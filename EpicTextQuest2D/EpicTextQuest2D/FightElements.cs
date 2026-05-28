@@ -7,19 +7,6 @@ namespace EpicTextQuest2D
 {
     public class FightElements
     {
-        //public static void EvadeDie (ref double hp)
-        //{
-        //    int die = Random.Shared.Next(1, 4);
-        //    if (die != 1)
-        //    {
-        //        int dmg = Random.Shared.Next(1, 20);
-        //        hp -= die;
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine(@"Атака противника летит на тебя, ");
-        //    }
-        //}
         public static void AttackDie(ref int die, int adv)
         {
             die = Random.Shared.Next(1, 20) + adv;
@@ -78,9 +65,9 @@ namespace EpicTextQuest2D
             int dmgfelix = 0;
             int dmgenemy = 0;
             FightElements.AttackDie(ref dmgfelix, adv);
-            if ((prog < 17) && prog > 10)
+            if ((prog < 17) && (prog > 10))
             {
-                FightElements.AttackDie(ref dmgenemy, 20);
+                dmgenemy = 21;
             }
             else
             {
@@ -152,19 +139,19 @@ namespace EpicTextQuest2D
                 else if (turn == 4)
                 {
                     Console.Clear();
-                    Console.WriteLine("«Я надеялся выдавить из тебя хоть какую-то информацию.» А на самом деле я просто тратил время зря.");
+                    Console.WriteLine("«Я надеялся выдавить из тебя хоть какую-то информацию.» 'А на самом деле я просто тратил время зря.'");
                     Console.ReadKey();
                     Console.Clear();
                 }
                 else if (turn == 5)
                 {
                     Console.Clear();
-                    Console.WriteLine(@"Лучше бы ты умер еще по пути сюда. Тогда мне бы не пришлось вообще тратить на тебя силы.
+                    Console.WriteLine(@"'Лучше бы ты умер еще по пути сюда. Тогда мне бы не пришлось вообще тратить на тебя силы.
 Ты подавал надежды как какой-то величавый ассасин, а ты не сильнее рядового его армии. 
 Ты подавал признаки чего-то интересного, я думал что наконец-то я смогу поразвлечься.
 Ты оказался пародией на достойного противника. Были те, которые горели в битве со мной.
 И они сгорали. А ты? Ты даже не разогрелся. Весь этот твой фальш завел тебя далеко.
-Пришло твое время расплатиться за него.");
+Пришло твое время расплатиться за него.'");
                     Console.ReadKey();
                     Console.Clear();
                 }
