@@ -7,6 +7,10 @@ namespace EpicTextQuest2D
 {
     public class FightElements
     {
+        public static void EventDie(ref int die)
+        {
+            die = Random.Shared.Next(1, 10);
+        }
         public static void AttackDie(ref int die, int adv)
         {
             die = Random.Shared.Next(1, 20) + adv;
@@ -190,7 +194,9 @@ namespace EpicTextQuest2D
         }
 
         
+
     }
 }
+
 //я вернул количество атак противника, почему бы не применить это в геймплее? ну напрмиер чтобы противник мог просто так атаковать в конце хода и наоборот. 
 //добавь количество ходов
