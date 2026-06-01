@@ -23,7 +23,7 @@ namespace EpicTextQuest2D
         {
 
         }
-        
+        //добавить копью ошеломляющий эффект, добавив переменную новую.
         public void SkillUse()
         {
             Console.WriteLine($"{SkillName} - {Description}\nНаносит {Damage} единиц урона.\nТратит {Cost} единиц выносливости.\nСделал ли я правильный выбор? Д/Н");
