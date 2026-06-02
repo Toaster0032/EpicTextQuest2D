@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Reflection;
 using System.Text;
 
@@ -123,40 +124,35 @@ namespace EpicTextQuest2D
                     if (turn == 1)
                     {
                         Console.Clear();
-                        Console.WriteLine("«Слабак.»");
+                        Console.WriteLine("«Значит ты встал до объединения.»");
                         Console.ReadKey();
                         Console.Clear();
                     }
                     else if (turn == 2)
                     {
                         Console.Clear();
-                        Console.WriteLine("«В следующий раз хотя бы попробуй замахнуться.»");
+                        Console.WriteLine("«Меня много чего в тебе заинтересовало, твоя Арете, твой... Взгляд на мир.»");
                         Console.ReadKey();
                         Console.Clear();
                     }
                     else if (turn == 3)
                     {
                         Console.Clear();
-                        Console.WriteLine("«Как они вообще тебя могли нанять. Ты даже не пытаешься со мной справиться.»");
+                        Console.WriteLine("«Я просто верну тебя в колею, где ты зацветёшь так, как тебе бы стоило.»");
                         Console.ReadKey();
                         Console.Clear();
                     }
                     else if (turn == 4)
                     {
                         Console.Clear();
-                        Console.WriteLine("«Я надеялся выдавить из тебя хоть какую-то информацию.» 'А на самом деле я просто тратил время зря.'");
+                        Console.WriteLine("'Ты бесхребетный, Феликс. Ты забудешь всё, но тот, кто спит в тебе - нет.'");
                         Console.ReadKey();
                         Console.Clear();
                     }
                     else if (turn == 5)
                     {
                         Console.Clear();
-                        Console.WriteLine(@"Лучше бы ты умер еще по пути сюда. Тогда мне бы не пришлось вообще тратить на тебя силы.
-Ты подавал надежды как какой-то величавый ассасин, а ты не сильнее рядового его армии. 
-Ты подавал признаки чего-то интересного, я думал что наконец-то я смогу поразвлечься.
-Ты оказался пародией на достойного противника. Были те, которые горели в битве со мной.
-И они сгорали. А ты? Ты даже не разогрелся. Весь этот твой фальш завел тебя далеко.
-Пришло твое время расплатиться за него.");
+                        Console.WriteLine(@"'Я посажу цветок этой мысли в тебя, мы увидимся снова, обещаю, и надеюсь тогда ты дашь мне Своё имя.'");
                         Console.ReadKey();
                         Console.Clear();
                     }
@@ -167,9 +163,18 @@ namespace EpicTextQuest2D
             }
             else
             {
-                Console.WriteLine($"КЛАЦ! Ваши оружия сцепились.\nВам обоим выпало {dmgfelix} и никто не попал, но вы оба почувствовали и собственные удары, и удары друг друга.\nЭто сильно сказалось на ваших силах.");
-                estamina -= dmgenemy / 2;
-                fstamina -= dmgfelix / 2;
+                if (prog == 129)
+                {
+                    Console.WriteLine($"'КЛАЦ! Наши мечи сцепились, моё белоснежное перо с твоим... Куском металла.\n{dmgfelix}. Никто не попал, но мы оба почувствовали собственные удары, и удары друг друга.'");
+                    estamina -= dmgenemy / 2;
+                    fstamina -= dmgfelix / 2;
+                }
+                else 
+                {
+                    Console.WriteLine($"'КЛАЦ! Наши мечи сцепились.\n{dmgfelix}. Никто не попал, но мы оба почувствовали собственные удары, и удары друг друга.'");
+                    estamina -= dmgenemy / 2;
+                    fstamina -= dmgfelix / 2;
+                }
             }
             Console.ReadKey();
             Console.Clear();
@@ -193,8 +198,9 @@ namespace EpicTextQuest2D
             Console.Clear();
         }
         
-        public static void FakeLoad()
+        public static void FakeLoad(int prog)
         {
+            
             Console.WriteLine("З..");
             System.Threading.Thread.Sleep(700);
             Console.Clear();
@@ -231,20 +237,75 @@ namespace EpicTextQuest2D
             Console.WriteLine("Загруз.........");
             System.Threading.Thread.Sleep(400);
             Console.Clear();
-            Console.WriteLine("^$г!у?.#.@*.!...?$%@./(");
-            System.Threading.Thread.Sleep(3000);
-            Console.Clear();
-            var glitchy = new RandomLetter();
-            string glitch = "";
-            for (int i = 0; i < 20; i++)
+            if (prog < 18)
             {
-                glitchy.RandomString(10000, ref glitch);
-                Console.WriteLine(glitch);
-                System.Threading.Thread.Sleep(50);
+                Console.WriteLine("^$г!у?.#.@*.!...?$%@./(");
+                System.Threading.Thread.Sleep(3000);
+                Console.Clear();
+                var glitchy = new RandomLetter();
+                string glitch = "";
+                for (int i = 0; i < 20; i++)
+                {
+                    glitchy.RandomString(10000, ref glitch);
+                    Console.WriteLine(glitch);
+                    System.Threading.Thread.Sleep(50);
+                    Console.Clear();
+                }
+            }
+            else if (prog == 18)
+            {
+                Console.WriteLine("Загрузк...");
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
+                Console.WriteLine("'Спокойной ночи.'");
+                System.Threading.Thread.Sleep(2067);
+                Console.Clear();
+                Console.WriteLine("Загруз.........");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загруз........");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загруз.......");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загруз......");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загруз.....");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загруз....");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загруз...");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загру...");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Загр...");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("Заг...");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("За..");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("З..");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine("З.");
+                System.Threading.Thread.Sleep(200);
+                Console.Clear();
+                Console.WriteLine(".");
+                System.Threading.Thread.Sleep(200);
                 Console.Clear();
             }
+           
         }
-        public static void KDeath()
+        public static void CDeath()
         {
             Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t###>");
             System.Threading.Thread.Sleep(200);
