@@ -1,6 +1,7 @@
 ﻿using EpicTextQuest2D;
 using System.Linq.Expressions;
 #pragma warning disable
+Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.WindowHeight = 50;
 Console.WindowWidth = 200;
 Console.ForegroundColor = ConsoleColor.White;
