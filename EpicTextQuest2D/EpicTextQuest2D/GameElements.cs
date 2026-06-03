@@ -221,28 +221,29 @@ namespace EpicTextQuest2D
             System.Threading.Thread.Sleep(700);
             Console.Clear();
             Console.WriteLine("Загруз...");
-            System.Threading.Thread.Sleep(5000);
-            Console.Clear();
-            Console.WriteLine("Загруз....");
-            System.Threading.Thread.Sleep(400);
-            Console.Clear();
-            Console.WriteLine("Загруз.....");
-            System.Threading.Thread.Sleep(400);
-            Console.Clear();
-            Console.WriteLine("Загруз......");
-            System.Threading.Thread.Sleep(400);
-            Console.Clear();
-            Console.WriteLine("Загруз.......");
-            System.Threading.Thread.Sleep(400);
-            Console.Clear();
-            Console.WriteLine("Загруз........");
-            System.Threading.Thread.Sleep(400);
-            Console.Clear();
-            Console.WriteLine("Загруз.........");
-            System.Threading.Thread.Sleep(400);
-            Console.Clear();
-            if (prog < 18)
+            
+            if (prog < 17)
             {
+                System.Threading.Thread.Sleep(5000);
+                Console.Clear();
+                Console.WriteLine("Загруз....");
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
+                Console.WriteLine("Загруз.....");
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
+                Console.WriteLine("Загруз......");
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
+                Console.WriteLine("Загруз.......");
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
+                Console.WriteLine("Загруз........");
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
+                Console.WriteLine("Загруз.........");
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
                 Console.WriteLine("^$г!у?.#.@*.!...?$%@./(");
                 System.Threading.Thread.Sleep(3000);
                 Console.Clear();
@@ -256,31 +257,15 @@ namespace EpicTextQuest2D
                     Console.Clear();
                 }
             }
-            else if (prog == 18)
+            else if (prog == 17)
             {
+                System.Threading.Thread.Sleep(400);
+                Console.Clear();
                 Console.WriteLine("Загрузк...");
                 System.Threading.Thread.Sleep(400);
                 Console.Clear();
                 Console.WriteLine("'Спокойной ночи.'");
                 System.Threading.Thread.Sleep(2067);
-                Console.Clear();
-                Console.WriteLine("Загруз.........");
-                System.Threading.Thread.Sleep(200);
-                Console.Clear();
-                Console.WriteLine("Загруз........");
-                System.Threading.Thread.Sleep(200);
-                Console.Clear();
-                Console.WriteLine("Загруз.......");
-                System.Threading.Thread.Sleep(200);
-                Console.Clear();
-                Console.WriteLine("Загруз......");
-                System.Threading.Thread.Sleep(200);
-                Console.Clear();
-                Console.WriteLine("Загруз.....");
-                System.Threading.Thread.Sleep(200);
-                Console.Clear();
-                Console.WriteLine("Загруз....");
-                System.Threading.Thread.Sleep(200);
                 Console.Clear();
                 Console.WriteLine("Загруз...");
                 System.Threading.Thread.Sleep(200);
