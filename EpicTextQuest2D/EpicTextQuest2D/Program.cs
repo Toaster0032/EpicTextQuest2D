@@ -204,6 +204,8 @@ void Next()
 (Получено 2 очка преимущества)");
                     skills.Add(rbf);
                     adv += 2;
+                    Console.ReadKey();
+                    Console.Clear();
                     break;
                 default:
                     goto beautiful;
