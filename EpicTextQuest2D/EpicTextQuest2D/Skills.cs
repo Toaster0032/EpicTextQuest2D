@@ -28,22 +28,14 @@ namespace EpicTextQuest2D
             if (Stun != 0)
             {
                 Console.Write("Ошеломляет противника на 1 ход");
-                if (Stun > 1)
-                {
-                    Console.WriteLine("а.");
-                }
-                else if (Stun == 1) 
-                {
-                    Console.WriteLine(".");
-                }
-                if (Heal > 0)
-                {
-                    Console.WriteLine($"Мне вернеться {Heal} единиц здоровья.");
-                }
-                else if (Heal < 0)
-                {
-                    Console.WriteLine($"Я получу {Heal} единиц урона.");
-                }
+            }
+            if (Heal > 0)
+            {
+                Console.WriteLine($"Мне вернеться {Heal} единиц здоровья.");
+            }
+            else if (Heal < 0)
+            {
+                Console.WriteLine($"Я получу {Heal * -1} единиц урона.");
             }
             Console.WriteLine($"Сделал ли я правильный выбор? Д/Н");
         }

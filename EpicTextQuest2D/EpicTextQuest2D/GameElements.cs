@@ -8,6 +8,10 @@ namespace EpicTextQuest2D
 {
     public class GameElements
     {
+        public static void EvadeDie(ref int die)
+        {
+            die = Random.Shared.Next(1, 3);
+        }
         public static void EventDie(ref int die)
         {
             die = Random.Shared.Next(1, 10);

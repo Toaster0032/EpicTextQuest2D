@@ -1,4 +1,5 @@
 ﻿using EpicTextQuest2D;
+using System.Linq.Expressions;
 #pragma warning disable
 Console.WindowHeight = 50;
 Console.WindowWidth = 200;
@@ -7,7 +8,7 @@ double fhealth = 100;int maxfhealth = 100;int fstamina = 20; int maxfstam = 20; 
 int estamina = 20; int maxestam = 20;  int ame = 1;int mame = 1;
 Felix felix = new Felix(fhealth, maxfhealth, fstamina, maxfstam, adv, amf, mamf, prog, level);
 Enemy enemy = new Enemy(estamina, maxestam, ame, mame);
-
+string yourname = "";
 List<Skills> skills = new List<Skills>();
 Skills b_s = new Skills("Пылающие слуги", "«Используя магию огня, я могу создать огненных существ, которые атакуют всех вокруг меня.»", 15 + felix.Advantage,5,0,0);
 Skills l_k = new Skills("Молниеносный пинок", "«Магия молнии способна помочь мне нанести сокрушающий и почти моментальный удар противнику.»", 25 + (felix.Advantage * 1.5), 10,0,0);
@@ -16,6 +17,7 @@ Skills s_i = new Skills("Теневое вмешательство", "«Тени
 Skills rbf = new Skills("Отвергнутый огнем", "«Сконцентрировав всю магию огня в себе, начнется резкое её отторжение, нанося урон всему и даже мне.»", 30 * (felix.Advantage / 4), 20,-10,2);
 bool prisonerevent = false;
 bool stargazer = false;
+bool shadowfight4 = false;
 bool debug = false;
 int loops = 0;
 ConsoleKeyInfo choice = Console.ReadKey(true);
@@ -43,7 +45,10 @@ while (debug)
             GameElements.TurnEnd(ref fhealth, maxfhealth);
             break;
         case "5":
+            skills.Add(rbf);
+            skills.Add(s_i);
             Fightsequence(100,100);
+            skills.Clear();
             break;
         case "6":
             felix.Stamina -= 10;
@@ -126,7 +131,7 @@ void Next()
 «ТИХО! Ты всё поймёшь ко-»
 Не успел он закончить фразу, как его глаза закатились и он упал на пол без сознания.
 Что бы он ни пытался сказать, возможно стоит прислушаться к его словам.
-(+1 к преимуществу на броски урона)");
+(Получено 2 очка преимущества)");
                     adv += 2;
                     Console.ReadKey();
                     Console.Clear();
@@ -146,11 +151,107 @@ void Next()
     }
     if ((((prog >= 42) && (prog <= 45)) || ((prog >= 50) && (prog <= 52)) || (prog == 57)) && (stargazer == false))
     {
+        GameElements.EventDie(ref echance);
+        if (echance == 1)
+        {
+        beautiful:
+            Console.WriteLine(@"...? Я потерялся в своих размышлениях.
+За такой короткий промежуток времени прошло так много всего, и так много воспоминаний продолжают всплывать.
+Уже точно не зная сколько времени прошло, меня наполнило чувство потерянности. Я посмотрел на небо.
 
-        skills.Add(rbf);
-        stargazer = true;
+
+1. Собраться с мыслями.
+2. Продолжить.");
+            choice = Console.ReadKey(true);
+            Console.Clear();
+            switch (choice.Key)
+            {
+                case ConsoleKey.D1:
+                    Console.WriteLine(@"Нет времени на то, чтобы разглядывать облака серы. 
+Надо двигаться дальше.");
+                    break;
+                case ConsoleKey.D2:
+                    Console.WriteLine(@"Эти облака серы... В них как будто видны эпизоды из моего прошлого, но я не могу разобрать ни одного.
+Чем больше я вглядываюсь, тем больше кажется, что я вижу что-то дальше. Словно мои глаза нашли способ как посмотреть за это желтое небо.
+Звёзды. Мой взгляд заполнило огромное множество звёзд, больше, чем я когда либо видел. Это зрелище полностью остановило мой неостановимый поток мыслей.
+Я на мгновение попал в состояние полного спокойствия.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine(@"Со временем звёзды стали отдоляться от меня, собираясь в одну точку.
+Поток звёзд будто не прекращался, их становилось все больше, и от того еще меньше, пока наконец они не пропали.
+На их месте осталась одна большая звезда. Её сияние было превосходным, несравнимым ни с чем. Я будто чувствовал её холодное тепло,
+её твердую и черствую ласку... она манила меня...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t*");
+                    System.Threading.Thread.Sleep(5000);
+                    Console.Clear();
+                    Console.WriteLine(@"Как только я был готов протянуть к ней свои руки... Она взорвалась.
+Миллионы звёзд начали разлетаться и снова заполнять небо.
+«Ты сделала это ради меня? Ты сделала это чтобы я не тянулся к тебе, чтобы твое тепло достало меня аж оттуда...» - подумал я про себя.
+Она будто бы прыгнула ко мне в объятия. Её тепло накрыло меня с ног до головы...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine(@"Облака сомкнулись. 
+Я пришёл к чуствам. Удача была на моей стороне, раз никто не попытался напасть на меня, пока я отвлёкся на эти глупые фантазии...
+Хотя... как будто бы что-то поменялось, как будто я чувствую прилив сил и... будто бы я вспомнил что-то новое.
+(Получена новая способность)
+(Получено 2 очка преимущества)");
+                    skills.Add(rbf);
+                    adv += 2;
+                    break;
+                default:
+                    goto beautiful;
+            }
+            stargazer = true;
+        }
+        
     }
-    
+    if (((prog == 58) || (prog == 60) || (prog == 62)) && (shadowfight4 == false))
+    {
+        GameElements.EventDie(ref echance);
+        if (echance <= 3)
+        {
+        scary:
+            Console.WriteLine(@"Тени вокруг сгущаются. Они окружают меня настолько плотно, что я перестаю что-либо видеть дальше чем на метр от меня.
+Я думал что миазмит воспользуется этим моментом но... он пропал? 
+Вдруг я вижу краем глаза как на меня летит кулак и успеваю увернуться.
+Передо мной оказывается... теневая фигура.
+
+
+1. Убежать.
+2. Дать отпор.");
+            choice = Console.ReadKey(true);
+            Console.Clear();
+            switch (choice.Key)
+            {
+                case ConsoleKey.D1:
+                    Console.WriteLine(@"Я пытаюсь выбежать из аллеи, но как только я отдалился от тени на несколько шагов, я почувствовал как что-то впилось в мою кожу.
+Что-то начало меня сдерживать. Моё тело наполнил страх. Я думал что это был плохой сон и изо всех сил пытался заставить себя проснуться.
+Но это не было сном. Теневые когти начали впиваться все глубже и глубже, я не мог сдерживать крик. Вдруг тени отпустили меня, вырвав свои когти с кусками плоти.
+Я пытаюсь перевести дыхание, но вижу как на меня бежит все тот же миазмит.
+(Потеряно 2 очка преимущества)");
+                    adv -= 2;
+                    break;
+                case ConsoleKey.D2:
+                    Console.WriteLine(@"Я встаю в боевую стойку.
+Страх окутывает меня, но я не даю этому забить мою голову.
+Тень бежит на меня.");
+                    Fightsequence(120, 120);
+                    Console.WriteLine(@"Тени рассасываются и все становится на свои места.
+Я опять в аллее. Там же где и был. Как будто бы... ничего не было на самом деле?
+Я вижу как все тот же миазмит бежит на меня, но теперь, когда я разогрелся, я готов к его атаке.
+У меня появляется предчувствие, будто будет лучше ,если мы будем сражаться в тени.
+(Получена новая способность)
+(Получено 2 очка преимущества)");
+                    adv += 2;
+                    skills.Add(s_i);
+                    break;
+
+            }
+            shadowfight4 = true;
+        }
+    }
     prog += 1;
     //«»
 }
@@ -194,7 +295,8 @@ ughagain:
                     Console.WriteLine(@"Мои глаза бегло осмотрели поле битвы и заметили то, что я бы ни с чем не смог спутать, 
 и что резко откликнулось в моей памяти - мой меч.
 Я сразу же подбежал и схватился за него.
-Мою голову сразу же начали заполнять воспоминания о том, как я им пользовался.");
+Мою голову сразу же начали заполнять воспоминания о том, как я им пользовался.
+(Получено 4 очка преимущества)");
                     Console.ReadKey();
                     Console.Clear();
                     adv += 4;
@@ -264,7 +366,7 @@ Console.WriteLine(@"");
                         Console.WriteLine("Но какую выбрать?» (написать полное название)");
                         string skillname = Console.ReadLine();
                         Console.Clear();
-                        if ((skills.Any(x => x.SkillName == skillname)) && (skills.Where(x => x.SkillName == skillname).First().Cost < fstamina))
+                        if ((skills.Any(x => x.SkillName == skillname)) && (skills.Where(x => x.SkillName == skillname).First().Cost <= fstamina))
                         {
                         skillconfirm:
                             skills.Where(x => x.SkillName == skillname).First().SkillUse();
@@ -276,6 +378,7 @@ Console.WriteLine(@"");
                                     ehealth -= skills.Where(x => x.SkillName == skillname).First().Damage;
                                     fstamina -= skills.Where(x => x.SkillName == skillname).First().Cost;
                                     fhealth += skills.Where(x => x.SkillName == skillname).First().Heal;
+                                    ame -= skills.Where(x => x.SkillName == skillname).First().Stun;
                                     Console.WriteLine($"«Получилось. Судя по всему противник это не оценил, но да ладно, главное что это приблизило меня к победе.»");
                                     Console.ReadKey();
                                     Console.Clear();
@@ -299,7 +402,7 @@ Console.WriteLine(@"");
                             Console.Clear();
                             goto skillchoice;
                         }
-                        else
+                        else if (skills.Where(x => x.SkillName == skillname).First().Cost > fstamina)
                         {
                             Console.Clear();
                             Console.WriteLine("«Я боюсь что если я попытаюсь использовать эту способность, мои ноги перестанут держать меня.»\n«Может мне лучше использовать обычную атаку?»");
@@ -308,7 +411,7 @@ Console.WriteLine(@"");
                             goto pickyourpoison;
                         }
                     }
-                    else
+                    else 
                     {
                         Console.WriteLine(@"«Я точно помню, что у меня были какие-то магические силы но... я вообще не могу вспомнить как я их использовал. 
 Лучше пока не буду пробовать»");
@@ -358,11 +461,39 @@ Console.WriteLine(@"");
 
         if (ame > 0)
         {
-            GameElements.AttackDie(ref enemydmg, 0);
-            fhealth -= enemydmg;
-            Console.WriteLine("Когда ты подумал что настало время передохнуть между атаками, противник резко нападает на тебя. Ты забыл где ты находишься?");
-            Console.ReadKey();
-            Console.Clear();
+            if (loops == 0)
+            {
+                GameElements.AttackDie(ref enemydmg, 0);
+                fhealth -= enemydmg;
+                Console.WriteLine("Когда ты подумал что настало время передохнуть между атаками, противник резко нападает на тебя. Ты забыл где ты находишься?");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                int dodge = 0;
+                GameElements.EvadeDie(ref dodge);
+                if (dodge <= loops)
+                {
+                    Console.WriteLine(@"Противник попытался замахнуться на тебя, но ты будто инстинктивно увернулся от удара. 
+Как будто ты уже знал по какой траектории он будет бить.
+Как будто ты уже был здесь.");
+                    if (prog >= 73)
+                    {
+                        Console.WriteLine("Замечательно.");
+                    }
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                else
+                {
+                    GameElements.AttackDie(ref enemydmg, 0);
+                    fhealth -= enemydmg;
+                    Console.WriteLine("Когда ты подумал что настало время передохнуть между атаками, противник резко нападает на тебя. Ты забыл где ты находишься?");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
         }
         if ((prog < 17) && (fhealth <= 0))
         {
@@ -467,7 +598,7 @@ Console.WriteLine(@"Холодно. Холодно и сыро, и всё бол
 Next();
 
 Console.WriteLine("'Как бы вы предпочли чтобы я обращался к вашему Герою?'");
-string yourname = Console.ReadLine();
+yourname = Console.ReadLine();
 Console.WriteLine("'Ах! Какое... наверное прекрасное имя.'\n\nНажмите для продолжения");
 Next();
 
@@ -625,7 +756,6 @@ switch (choice.Key)
         prog += 1;
         goto key;
     case ConsoleKey.D2:
-        //ведет вверх по ступенькам
         Console.Clear();
         prog = 25;
         goto stairs;
@@ -706,8 +836,7 @@ Next();
 Console.WriteLine(@"Меня встречает... мягко говоря, необычный пейзаж: первое, что бросается в глаза, — это зловещая желтоватая атмосфера, какой-то туман; 
 я поднимаю взгляд к небу и вижу, что оно того же сернистого оттенка, а облака покрывают каждый сантиметр неба. Воздух здесь просто ненормальный, от него головная боль мучительно пульсирует.");
 Next();
-Console.WriteLine(@"Хватит про небо. 
-");
+Console.WriteLine(@"Хватит про небо.");
 Next();
 freedom:
 Console.WriteLine(@"То, что позади меня, — это всего лишь небольшое строение, похожее на хижину; 
@@ -1032,9 +1161,48 @@ Console.WriteLine(@"Я вовремя успел вырваться из рук 
 Next();
 slayqueeen:
 Fightsequence(175, 175);//72
-Console.WriteLine(@"«»");
+if (loops != 0)
+{
+    Console.WriteLine(@"«Кассандра и Гелен. Вы тоже были интереснейшим экспериментом: что же будет если неразлучимых близнецов разделить, усилив их выделяющие черты?
+Что если бы человек, чья работа закапывать людей, вдруг стал одержим этой идеей и от этого он стал бы скорбить о каждой мелочи, о каждом человеке?
+Что если бы человек, чья работа рубить головы по приговору, начал бы сам раздавать свои приговоры, лишь бы утешить свою манию?
+Это было очень интересно. Теперь, давай посмотрим, как изменился ты.»");
+    Next();
+}
+else
+{
+    Console.WriteLine(@"«Я вижу ты опять проснулся. Пришло время проверить, насколько ты расцвел.»");
+    Next();
+}
+Fightsequence(300, 300);//74
+if (loops == 0)
+{
+    Console.WriteLine(@"«Ах, ты уже так близок. Но боюсь твоё время здесь подходит к концу.
+Пожалуй, давай повторим все сначала. Ты можешь показать гораздо больше.»");
+    Next();
+}
+else if (loops == 1)
+{
+    Console.WriteLine(@"«Да. Превосходно. Ты наконец-то смог полностью расцвести.
+Я наконец-то могу собрать плоды своих трудов. Эта идея была замечательна.
+Избавлю тебя от дальнейших страданий. Прощай.»");
+    Next();
+}
+else
+{
+    Console.WriteLine(@"Ты услужил, но твоя ценность исчерпана. Можешь не возвращаться.");
+    Next();
+}
+prisonerevent = false;
+stargazer = false;
+shadowfight4 = false;
+adv = 0;
+prog = 17;
+loops++;
+skills.Clear();
+goto helloagain;
 
-//сделай копье станящим!
+
 
 
 /*
