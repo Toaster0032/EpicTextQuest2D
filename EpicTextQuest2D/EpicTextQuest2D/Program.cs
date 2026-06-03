@@ -2,11 +2,10 @@
 using System.Linq.Expressions;
 #pragma warning disable
 Console.OutputEncoding = System.Text.Encoding.UTF8;
-Console.InputEncoding = System.Text.Encoding.UTF8;
 Console.WindowHeight = 50;
 Console.WindowWidth = 200;
 Console.ForegroundColor = ConsoleColor.White;
-double fhealth = 100;int maxfhealth = 100;int fstamina = 20; int maxfstam = 20; int adv = 0;int amf = 1;int mamf = 1;int prog = 0;
+double fhealth = 100;int maxfhealth = 100;int fstamina = 20; int maxfstam = 20; int adv = 0;int amf = 1;int mamf = 1;int prog = 0;int level = 0;
 int estamina = 20; int maxestam = 20;  int ame = 1;int mame = 1;
 Felix felix = new Felix(fhealth, maxfhealth, fstamina, maxfstam, adv, amf, mamf, prog, level);
 Enemy enemy = new Enemy(estamina, maxestam, ame, mame);
@@ -46,8 +45,8 @@ while (debug)
         case "4":
             prog = 46;
             adv += 2;
+            skills.Add(b_s);
             goto whereisthesword;
-            break;
         case "5":
             skills.Add(rbf);
             skills.Add(s_i);
@@ -173,6 +172,8 @@ void Next()
                 case ConsoleKey.D1:
                     Console.WriteLine(@"Нет времени на то, чтобы разглядывать облака серы. 
 Надо двигаться дальше.");
+                    Console.ReadKey();
+                    Console.Clear();
                     break;
                 case ConsoleKey.D2:
                     Console.WriteLine(@"Эти облака серы... В них как будто видны эпизоды из моего прошлого, но я не могу разобрать ни одного.
@@ -236,6 +237,8 @@ void Next()
 Я пытаюсь перевести дыхание, но вижу как на меня бежит все тот же миазмит.
 (Потеряно 2 очка преимущества)");
                     adv -= 2;
+                    Console.ReadKey();
+                    Console.Clear();
                     break;
                 case ConsoleKey.D2:
                     Console.WriteLine(@"Я встаю в боевую стойку.
@@ -271,22 +274,7 @@ ughagain:
     fhealth = maxfhealth;
     while (fhealth > 0 && ehealth > 0)
     {
-        if (fstamina > maxfstam)
-        {
-            fstamina = maxfstam;
-        }
-        if (estamina > maxestam)
-        {
-            estamina = maxestam;
-        }
-        if (fstamina < 0)
-        {
-            fstamina = 0;
-        }
-        if (estamina < 0)
-        {
-            estamina = 0;
-        }
+        
         if ((prog > 45) && (prog < 49))
         {
             if (turn == 3)
@@ -312,7 +300,7 @@ ughagain:
         fightchoice:
             
             
-            if ((prog >= 71) && (prog <= 73)) 
+            if ((prog >= 71) && (prog <= 72)) 
             {
                 if (ehealth <= 50)
                 {
@@ -343,6 +331,22 @@ Console.WriteLine(@"");
                 }
             }
         pickyourpoison:
+            if (fstamina > maxfstam)
+            {
+                fstamina = maxfstam;
+            }
+            if (estamina > maxestam)
+            {
+                estamina = maxestam;
+            }
+            if (fstamina < 0)
+            {
+                fstamina = 0;
+            }
+            if (estamina < 0)
+            {
+                estamina = 0;
+            }
             Console.WriteLine(@$" Ход {turn}. Действий осталось: {amf} 
 Перед вами стоит противник, что вы собираетесь сделать?");
             Console.WriteLine("1 - Атаковать\n" +
@@ -376,6 +380,7 @@ Console.WriteLine(@"");
                         Console.WriteLine("Но какую выбрать?» (написать полное название)");
                         string skillname = Console.ReadLine();
                         Console.Clear();
+                        Console.WriteLine(skillname);
                         if ((skills.Any(x => x.SkillName == skillname)) && (skills.Where(x => x.SkillName == skillname).First().Cost <= fstamina))
                         {
                         skillconfirm:
@@ -596,7 +601,7 @@ switch (z)
         Next();
         break;
 }
-GameElements.FakeLoad(prog);
+//GameElements.FakeLoad(prog);
 
 Console.WriteLine(@"Холодно. Холодно и сыро, и всё болит. Ты просыпаешься в месте, похожим на тюремную клетку.
 Решетка выбита, словно бушующий ураган прошелся через всю темницу. Твой поток мыслей прерван настолько ужасной головной болью,
@@ -1215,6 +1220,7 @@ stargazer = false;
 shadowfight4 = false;
 adv = 0;
 prog = 17;
+mamf = 1;
 loops++;
 skills.Clear();
 goto helloagain;
