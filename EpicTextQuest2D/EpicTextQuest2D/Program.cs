@@ -5,9 +5,9 @@ Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.WindowHeight = 50;
 Console.WindowWidth = 200;
 Console.ForegroundColor = ConsoleColor.White;
-double fhealth = 100;int maxfhealth = 100;int fstamina = 20; int maxfstam = 20; int adv = 0;int amf = 1;int mamf = 1;int prog = 0;
+double fhealth = 100;int maxfhealth = 100;int fstamina = 20; int maxfstam = 20; int adv = 0;int amf = 1;int mamf = 1;int prog = 0;int level = 0;
 int estamina = 20; int maxestam = 20;  int ame = 1;int mame = 1;
-Felix felix = new Felix(fhealth, maxfhealth, fstamina, maxfstam, adv, amf, mamf, prog);
+Felix felix = new Felix(fhealth, maxfhealth, fstamina, maxfstam, adv, amf, mamf, prog, level);
 Enemy enemy = new Enemy(estamina, maxestam, ame, mame);
 string yourname = "";
 List<Skills> skills = new List<Skills>();
@@ -34,13 +34,13 @@ while (debug)
             fhealth -= 10;
             break;
         case "1":
-            felix.Health += 10;
+            fhealth += 10;
             break;
         case "2":
-            felix.MaxHealth -= 10;
+            maxfhealth -= 10;
             break;
         case "3":
-            felix.MaxHealth += 10;
+            maxfhealth += 10;
             break;
         case "4":
             prog = 46;
@@ -54,16 +54,16 @@ while (debug)
             skills.Clear();
             break;
         case "6":
-            felix.Stamina -= 10;
+            fstamina -= 10;
             break;
         case "7":
-            felix.Stamina += 10;
+            fstamina += 10;
             break;
         case "8":
-            felix.Advantage -= 2;
+            adv -= 2;
             break;
         case "9":
-            felix.Advantage += 2;
+            adv += 2;
             break;
         case "10":
             prog = 72;
@@ -147,6 +147,7 @@ void Next()
                     Console.Clear();
                     break;
                 default:
+                    Console.Clear();
                     goto randomprisoner;
             }
             prisonerevent = true;
@@ -155,7 +156,7 @@ void Next()
     if ((((prog >= 42) && (prog <= 45)) || ((prog >= 50) && (prog <= 52)) || (prog == 57)) && (stargazer == false))
     {
         GameElements.EventDie(ref echance);
-        if (echance == 1)
+        if (echance <= 4)
         {
         beautiful:
             Console.WriteLine(@"...? Я потерялся в своих размышлениях.
@@ -202,12 +203,13 @@ void Next()
 Хотя... как будто бы что-то поменялось, как будто я чувствую прилив сил и... будто бы я вспомнил что-то новое.
 (Получена новая способность)
 (Получено 2 очка преимущества)");
-                    skills.Add(rbf);
-                    adv += 2;
                     Console.ReadKey();
                     Console.Clear();
+                    skills.Add(rbf);
+                    adv += 2;
                     break;
                 default:
+                    Console.Clear();
                     goto beautiful;
             }
             stargazer = true;
@@ -246,8 +248,6 @@ void Next()
                     Console.WriteLine(@"Я встаю в боевую стойку.
 Страх окутывает меня, но я не даю этому забить мою голову.
 Тень бежит на меня.");
-                    Console.ReadKey();
-                    Console.Clear();
                     Fightsequence(120, 120);
                     Console.WriteLine(@"Тени рассасываются и все становится на свои места.
 Я опять в аллее. Там же где и был. Как будто бы... ничего не было на самом деле?
@@ -302,17 +302,18 @@ ughagain:
         ame = mame;
         do
         {
-            
+
         fightchoice:
+
+
             
-            
-            if ((prog >= 71) && (prog <= 72)) 
+            if (prog == 72)
             {
                 if (ehealth <= 50)
                 {
                     Console.Write(@"Было видно, что Кассандра хоть и была сильна, но не была подготовлена к такой долгой битве.
 «Вы... вы уже пересекались, не так ли?... Гелен... Чёрт... За что... По твоему, что хуже:
-то, как "); 
+то, как ");
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.Write("Он ");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -328,7 +329,8 @@ ughagain:
                     System.Threading.Thread.Sleep(5000);
                     Console.Clear();
                     GameElements.CDeath();
-                    goto afterfight;
+                    ehealth = 0;
+                    return;
                     /*
 «»
 Next();
@@ -386,7 +388,6 @@ Console.WriteLine(@"");
                         Console.WriteLine("Но какую выбрать?» (написать полное название)");
                         string skillname = Console.ReadLine();
                         Console.Clear();
-                        Console.WriteLine(skillname);
                         if ((skills.Any(x => x.SkillName == skillname)) && (skills.Where(x => x.SkillName == skillname).First().Cost <= fstamina))
                         {
                         skillconfirm:
@@ -432,7 +433,7 @@ Console.WriteLine(@"");
                             goto pickyourpoison;
                         }
                     }
-                    else 
+                    else
                     {
                         Console.WriteLine(@"«Я точно помню, что у меня были какие-то магические силы но... я вообще не могу вспомнить как я их использовал. 
 Лучше пока не буду пробовать»");
@@ -470,9 +471,63 @@ Console.WriteLine(@"");
                     }
                     continue;
                 default:
+                    Console.Clear();
                     goto fightchoice;
             }
             amf -= 1;
+            if ((prog < 17) && (fhealth <= 0))
+            {
+                prog += 1;
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else if (prog > 18)
+            {
+                if (fhealth <= 0)
+                {
+                    debug = false;
+                    Console.WriteLine("Ты падаешь на пол без сил. Не успевая даже придумать последних слов, ты чувствуешь как противник наносит свою завершающую атаку и...");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("\n\n\n\n\n\n\n\n" +
+                  "\t\t\t\t\t\t\t    =====================================================================================\n" +
+                  "\t\t\t\t\t\t\t    =====================================================================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■=======■■=======================■■===========■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■======■■========================■■===========■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■=====■■=========================■■=========■■■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■====■■==========================■■========■■=■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■===■■===========================■■=======■■==■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■==■■============================■■======■■===■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■■■==============================■■=====■■====■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■■■==============================■■====■■=====■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■==■■============================■■===■■======■■=================================\n" +
+                  "\t\t\t\t\t\t\t    ===■■===■■=====■■■■=■==■=■■■■=■==■===■■==■■=======■■=■■■■=■■■==■====■================\n" +
+                  "\t\t\t\t\t\t\t    ===■■====■■====■==■=■==■=■====■==■===■■=■■========■■=■====■==■=■====■================\n" +
+                  "\t\t\t\t\t\t\t    ===■■=====■■===■==■=■■■■=■■■==■==■===■■■■=========■■=■====■==■=■■■■=■================\n" +
+                  "\t\t\t\t\t\t\t    ===■■======■■==■==■=■==■=■====■==■===■■===========■■=■====■■■==■==■=■================\n" +
+                  "\t\t\t\t\t\t\t    ===■■=======■■=■■■■=■==■=■■■■=■■■■■==■■===========■■=■====■====■■■■=■================\n" +
+                  "\t\t\t\t\t\t\t    ==================================■==================================================\n" +
+                  "\t\t\t\t\t\t\t    =====================================================================================\n" +
+                  "\t\t\t\t\t\t\t    =====================================================================================\n" +
+                  "\t\t\t\t\t\t\t    =====================================================================================\n"
+                  );
+                    System.Threading.Thread.Sleep(3000);
+                    Console.WriteLine("\n \t\t\t\t\t\t\t\t Нет...");
+                    System.Threading.Thread.Sleep(3000);
+                    Console.Clear();
+                    goto ughagain;
+
+                }
+
+                else if (ehealth <= 0)
+                {
+                    Console.WriteLine("Ты смог одержать победу в этом сражении. \nТы бы с радостью отпраздновал это, но каждая секунда тебе дорога, и каждый лишний звук может оказаться твоим последним.\nТы двигаешься дальше.");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Next();
+                    return;
+                }
+            }
         }
         while (amf > 0);
         GameElements.TurnEnd(ref fhealth, maxfhealth);
@@ -516,62 +571,11 @@ Console.WriteLine(@"");
                 }
             }
         }
-        if ((prog < 17) && (fhealth <= 0))
-        {
-            prog += 1;
-            Console.ReadKey();
-            Console.Clear();
-        }
-        else if (prog > 18)
-        {
-            if (fhealth <= 0)
-            {
-                debug = false;
-                Console.WriteLine("Ты падаешь на пол без сил. Не успевая даже придумать последних слов, ты чувствуешь как противник наносит свою завершающую атаку и...");
-                Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("\n\n\n\n\n\n\n\n" +
-              "\t\t\t\t\t\t\t    =====================================================================================\n" +
-              "\t\t\t\t\t\t\t    =====================================================================================\n" +
-              "\t\t\t\t\t\t\t    ===■■=======■■=======================■■===========■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■======■■========================■■===========■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■=====■■=========================■■=========■■■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■====■■==========================■■========■■=■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■===■■===========================■■=======■■==■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■==■■============================■■======■■===■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■■■==============================■■=====■■====■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■■■==============================■■====■■=====■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■==■■============================■■===■■======■■=================================\n" +
-              "\t\t\t\t\t\t\t    ===■■===■■=====■■■■=■==■=■■■■=■==■===■■==■■=======■■=■■■■=■■■==■====■================\n" +
-              "\t\t\t\t\t\t\t    ===■■====■■====■==■=■==■=■====■==■===■■=■■========■■=■====■==■=■====■================\n" +
-              "\t\t\t\t\t\t\t    ===■■=====■■===■==■=■■■■=■■■==■==■===■■■■=========■■=■====■==■=■■■■=■================\n" +
-              "\t\t\t\t\t\t\t    ===■■======■■==■==■=■==■=■====■==■===■■===========■■=■====■■■==■==■=■================\n" +
-              "\t\t\t\t\t\t\t    ===■■=======■■=■■■■=■==■=■■■■=■■■■■==■■===========■■=■====■====■■■■=■================\n" +
-              "\t\t\t\t\t\t\t    ==================================■==================================================\n" +
-              "\t\t\t\t\t\t\t    =====================================================================================\n" +
-              "\t\t\t\t\t\t\t    =====================================================================================\n" +
-              "\t\t\t\t\t\t\t    =====================================================================================\n"
-              );
-                System.Threading.Thread.Sleep(3000);
-                Console.WriteLine("\n \t\t\t\t\t\t\t\t Нет...");
-                System.Threading.Thread.Sleep(3000);
-                Console.Clear();
-                goto ughagain;
-                
-            }
-
-            else if (ehealth <= 0)
-            {
-                Console.WriteLine("Ты смог одержать победу в этом сражении. \nТы бы с радостью отпраздновал это, но каждая секунда тебе дорога, и каждый лишний звук может оказаться твоим последним.\nТы двигаешься дальше.");
-                Console.ReadKey();
-                Console.Clear();
-                Next();
-            }
+        
         }
     }
-afterfight:
-    fhealth = 100;
-}
+    
+
 riseandshine:
 Console.WriteLine("\n\n\n\n\n\n\n\n" +
         "\t\t\t\t\t\t=========================================================================================================\n" +
@@ -607,7 +611,7 @@ switch (z)
         Next();
         break;
 }
-GameElements.FakeLoad(prog);
+//GameElements.FakeLoad(prog);
 
 Console.WriteLine(@"Холодно. Холодно и сыро, и всё болит. Ты просыпаешься в месте, похожим на тюремную клетку.
 Решетка выбита, словно бушующий ураган прошелся через всю темницу. Твой поток мыслей прерван настолько ужасной головной болью,
@@ -716,7 +720,7 @@ Console.WriteLine(@"«М, Ты встал раньше чем я думал. И 
 Next();
 
 Fightsequence(100,100);//17
-GameElements.FakeLoad(prog);
+//GameElements.FakeLoad(prog);
 helloagain:
 Console.WriteLine(@"Холодно. Холодно и сыро, и всё болит. Я проснулся на холодном полу тюремной камеры, решётка выбита, словно её снёс бушующий ураган. 
 Я попытался подняться на дрожащие ноги, но меня тут же свалила на колени ужасная мигрень. Больно пытаться что-то вспомнить, больно думать, 
@@ -1080,6 +1084,7 @@ switch(choice.Key)
         prog += 1;
         goto ahsoyousaw;
     default:
+        Console.Clear();
         goto whereisthesword;
 }
 ahsoyousaw:
