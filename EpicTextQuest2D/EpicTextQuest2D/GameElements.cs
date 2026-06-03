@@ -183,7 +183,6 @@ namespace EpicTextQuest2D
             Console.ReadKey();
             Console.Clear();
             ame -= 1;
-            amf -= 1;
         }
         public static void TurnEnd(ref double fhealth, int maxfhealth)
         {

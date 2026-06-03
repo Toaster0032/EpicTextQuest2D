@@ -1,7 +1,6 @@
 ﻿using EpicTextQuest2D;
 using System.Linq.Expressions;
 #pragma warning disable
-Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.WindowHeight = 50;
 Console.WindowWidth = 200;
 Console.ForegroundColor = ConsoleColor.White;
@@ -43,7 +42,9 @@ while (debug)
             felix.MaxHealth += 10;
             break;
         case "4":
-            GameElements.TurnEnd(ref fhealth, maxfhealth);
+            prog = 46;
+            adv += 2;
+            goto whereisthesword;
             break;
         case "5":
             skills.Add(rbf);
@@ -284,12 +285,14 @@ ughagain:
         {
             estamina = 0;
         }
+        amf = mamf;
+        ame = mame;
         do
         {
+            
         fightchoice:
-            amf = mamf;
-            ame = mame;
-            if (prog == 47)
+            
+            if ((prog > 45) && (prog < 49))
             {
                 if (turn == 3)
                 {
@@ -303,6 +306,7 @@ ughagain:
                     Console.Clear();
                     adv += 4;
                     mamf = 2;
+                    amf = 2;
                 }
             }
             if ((prog >= 71) && (prog <= 73)) 
@@ -336,7 +340,7 @@ Console.WriteLine(@"");
                 }
             }
         pickyourpoison:
-            Console.WriteLine(@$" Ход {turn} 
+            Console.WriteLine(@$" Ход {turn}. Действий осталось: {amf} 
 Перед вами стоит противник, что вы собираетесь сделать?");
             Console.WriteLine("1 - Атаковать\n" +
             "2 - Способности\n" +
@@ -894,7 +898,7 @@ switch (choice.Key)
 «Не... дай... увидеть себя...»
 Я сразу же дернулся от прохода и повернулся налево, где увидел заключенного, прислонившегося к клетке и лежащего на полу.");
         Next();//39
-        Console.Write("«С Гелен... что-то случилось... рукам Гелен было... не привыкать таскать трупы, но когда ");
+        Console.Write("«С Гелен... что-то случилось... рукам Гелен было... не привыкать таскать трупы, но когда");
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.Write("Он ");
         Console.ForegroundColor = ConsoleColor.White;
