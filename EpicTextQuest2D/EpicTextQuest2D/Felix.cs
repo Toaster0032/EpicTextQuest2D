@@ -15,9 +15,8 @@ namespace EpicTextQuest2D
         public int AtkAmmount { get; set; }
         public int MaxAtkAmmount { get; set; }
         public int Progress { get; set; }
-        public int Level { get; set; }
       
-        public Felix(double health, int maxh, int stam, int maxstam, int adv, int atkammount, int maxatkammount, int progress, int level)
+        public Felix(double health, int maxh, int stam, int maxstam, int adv, int atkammount, int maxatkammount, int progress)
         {
             Health = health;
             MaxHealth = maxh;
@@ -27,7 +26,6 @@ namespace EpicTextQuest2D
             AtkAmmount = atkammount;
             MaxAtkAmmount = maxatkammount;
             Progress = progress;
-            Level = level;
         }
     }
 }
